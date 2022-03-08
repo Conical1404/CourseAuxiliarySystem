@@ -1,0 +1,3 @@
+#!/bin/sh
+
+./tools/cpplint/cpp_astyle_lint_changed_codes.sh
