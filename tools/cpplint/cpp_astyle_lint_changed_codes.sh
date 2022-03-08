@@ -16,7 +16,7 @@ changed_files=$(git diff-index --cached $against | \
 
 ignore_lists="-legal/copyright,-build/include_what_you_use"
 
-cpp_astyle_lint_Dir="./tools/cpp_astyle_lint"
+cpp_astyle_lint_Dir="./tools/cpplint"
 
 lint_ret=0
 if [ -n "$changed_files" ]; then	
