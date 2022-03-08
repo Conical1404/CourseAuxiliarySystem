@@ -4,6 +4,10 @@
 
 线下课程活动辅助系统的设计实现
 
+## 开发须知
+
+`git clone` 后，运行 `./tools/cpp_astyle_lint/install.bat` 来安装 `git hooks`
+
 ## 功能需求
 
 ### 基础信息

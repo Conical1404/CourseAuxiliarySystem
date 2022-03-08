@@ -1,4 +1,3 @@
-
 #pragma once
 #include <stdlib.h>
 
@@ -10,7 +9,7 @@ class Pair {
     Pair(T1 k, T2 v): key(k), value(v) {}
     T1 first();
     T2 second();
-    void operator = (Pair<T1, T2> p);
+    void operator = (const Pair<T1, T2> &p)
 };
 
 template <class T1, class T2>
@@ -24,7 +23,7 @@ T2 Pair<T1, T2> :: second() {
 }
 
 template <class T1, class T2>
-void Pair<T1, T2> :: operator = (Pair<T1, T2> p) {
+void Pair<T1, T2> :: operator = (const Pair<T1, T2> &p) {
     key = p.key;
     value = p.value;
 }

@@ -1,15 +1,20 @@
 #pragma once
 #include <stdlib.h>
-#include <utility>
 #include "Vector.hpp"
 
 template <class T>
 class Heap {
  private:
-    Vector<T> data;
     int size;
 
+    void swap(int x, int y) {
+        T t = data[x];
+        data[x] = data[y];
+        data[y] = t;
+    }
+
  public:
+    Vector<T> data;
     Heap() {
         size = 0;
         data.pushBack(*(new T));
@@ -19,8 +24,8 @@ class Heap {
         size++;
         data.pushBack(x);
         int i = size;
-        while (i > 1 && data[i] > data[i >> 1]) {
-            swap(data[i], data[i >> 1]);
+        while (i > 1 && data[i] > data[i>>1]) {
+            swap(i, i >> 1);
             i = i >> 1;
         }
     }
@@ -49,11 +54,11 @@ class Heap {
         else
             j = (i << 1) | 1;
         while (j <= size && data[i] < data[j]) {
-            swap(data[i], data[j]);
+            swap(i, j);
             i = j;
             if ((i << 1) > size) return;
             if (((i << 1) | 1) > size || data[i << 1] > data[(i << 1) | 1])
-                j = i << 1, fprintf(stderr, "?%d\n", (i << 1) | 1 > size);
+                j = i << 1, printf("?%d\n", (i << 1) | 1 > size);
             else
                 j = (i << 1) | 1;
         }

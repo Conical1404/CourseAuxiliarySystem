@@ -14,19 +14,15 @@ changed_files=$(git diff-index --cached $against | \
 	grep -v 'glog' | \
 	cut -d'	' -f 2)
 
-# astyle_args="--style=google --delete-empty-lines --suffix=none --indent=spaces=4 --min-conditional-indent=2 --align-pointer=type --align-reference=type --indent-switches --indent-cases --indent-col1-comments --pad-oper --pad-header --unpad-paren --close-templates --convert-tabs --mode=c"
-ignore_lists="-legal/copyright"
+ignore_lists="-legal/copyright,-build/include_what_you_use"
 
 cpp_astyle_lint_Dir="./tools/cpp_astyle_lint"
-
-# cp $cpp_astyle_lint_Dir/astyle $cpp_astyle_lint_Dir/astyle.exe
 
 lint_ret=0
 if [ -n "$changed_files" ]; then	
 	python $cpp_astyle_lint_Dir/cpplint.py --filter=$ignore_lists $changed_files
 	lint_ret=$?
 	if [ "$lint_ret" != 0 ]; then
-		# $cpp_astyle_lint_Dir/astyle.exe $astyle_args $changed_files
 		echo -e "[提交失败!!!]\n上传的代码中存在一些不规范的地方, 请手动修改并提交, 直到所有代码都符合规范为止..."
 	fi
 	exit $lint_ret
