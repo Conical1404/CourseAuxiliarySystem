@@ -7,6 +7,7 @@
 ## 开发须知
 
 `git clone` 后，运行 `./tools/cpp_astyle_lint/install.bat` 安装 `git hooks`
+
 代码编写完成后，运行 `python check.py` 检查代码规范
 
 ## 功能需求
