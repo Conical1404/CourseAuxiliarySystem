@@ -5,6 +5,7 @@
 template <class T>
 class Heap {
  private:
+    Vector<T> data;
     int size;
 
     void swap(int x, int y) {
@@ -14,7 +15,6 @@ class Heap {
     }
 
  public:
-    Vector<T> data;
     Heap() {
         size = 0;
         data.pushBack(*(new T));
