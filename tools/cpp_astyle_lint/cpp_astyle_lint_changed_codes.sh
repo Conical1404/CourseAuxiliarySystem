@@ -10,7 +10,7 @@ fi
 
 # We should pass only added or modified C/C++ source files to cppcheck.
 changed_files=$(git diff-index --cached $against | \
-	grep -E '[MA]	.*\.(c|cpp|h)$' | \
+	grep -E '[MA]	.*\.(c|cpp|h|hpp)$' | \
 	grep -v 'glog' | \
 	cut -d'	' -f 2)
 
