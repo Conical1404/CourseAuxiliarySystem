@@ -5,22 +5,36 @@ template <class T>
 class Vector {
  private:
     T *data;
-    int MaxLength;
+    int maxLength;
     int size;
-    void reNew(int NewLength) {
-        T *NewData = reinterpret_cast<T*> (malloc (NewLength * sizeof(T)));
+    void reNew(int newLength) {
+        T *newData = reinterpret_cast<T*> (malloc(newLength * sizeof(T)));
         for (int i = 0; i < size; i++)
-            NewData[i] = data[i];
+            newData[i] = data[i];
         free(data);
-        data = NewData;
-        MaxLength = NewLength;
+        data = newData;
+        maxLength = newLength;
     }
 
  public:
     Vector() {
-        data = reinterpret_cast<T*> (malloc( 64 * sizeof(T)));
-        MaxLength = 64;
+        data = reinterpret_cast<T*> (malloc(64 * sizeof(T)));
+        maxLength = 64;
         size = 0;
+    }
+    explicit Vector(int n) {
+        data = reinterpret_cast<T*> (malloc(64 * sizeof(T)));
+        maxLength = 64;
+        size = 0;
+        for (int index = 1; index <= n; index++)
+            pushBack(*(new T));
+    }
+    Vector(int n, T x) {
+        data = reinterpret_cast<T*> (malloc(64 * sizeof(T)));
+        maxLength = 64;
+        size = 0;
+        for (int index = 1; index <= n; index++)
+            pushBack(x);
     }
     ~Vector() {
         free(data);
@@ -29,14 +43,18 @@ class Vector {
         return size;
     }
     void pushBack(T e) {
-        if (size == MaxLength) reNew( MaxLength << 1);
+        if (size == maxLength) reNew(maxLength << 1);
         data[size++] = e;
+    }
+    void popBack() {
+        if (size == 0) return;
+        size--;
     }
     bool isEmpty() {
         if (size == 0) return 1;
         return 0;
     }
-    T &operator[](int i) {
-        return data[i];
+    T &operator[](int index) {
+        return data[index];
     }
 };

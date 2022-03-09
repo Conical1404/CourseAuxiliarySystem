@@ -4,26 +4,27 @@
 template <class T1, class T2>
 class Pair {
  public:
-    T1 key;
-    T2 value;
-    Pair(T1 k, T2 v): key(k), value(v) {}
-    T1 first();
-    T2 second();
-    void operator = (const Pair<T1, T2> &p)
+    T1 first;
+    T2 second;
+    Pair() { }
+    Pair(T1 k, T2 v): first(k), second(v) { }
+    void operator = (const Pair<T1, T2> &other);
+    bool operator < (const Pair<T1, T2> &other) const;
+    bool operator > (const Pair<T1, T2> &other) const;
 };
 
 template <class T1, class T2>
-T1 Pair<T1, T2> :: first() {
-    return key;
+void Pair<T1, T2> :: operator = (const Pair<T1, T2> &other) {
+    first = other.first;
+    second = other.second;
 }
 
 template <class T1, class T2>
-T2 Pair<T1, T2> :: second() {
-    return value;
+bool Pair<T1, T2> :: operator < (const Pair<T1, T2> &other) const {
+    return first == other.first ? second < other.second : first < other.first;
 }
 
 template <class T1, class T2>
-void Pair<T1, T2> :: operator = (const Pair<T1, T2> &p) {
-    key = p.key;
-    value = p.value;
+bool Pair<T1, T2> :: operator > (const Pair<T1, T2> &other) const {
+    return first == other.first ? second > other.second : first > other.first;
 }

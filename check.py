@@ -12,4 +12,4 @@ for parent,dirnames,filenames in os.walk(need_cpplint_dir):
 		need_astyle_file = os.path.join(parent,filename)
 		if need_astyle_file.endswith(('.cpp','.h','.CPP','.H','.Cpp', '.hpp', '.HPP')):
 			#print need_astyle_file
-			os.system("python %s --filter=%s %s" % ('.\\tools\cpp_astyle_lint\cpplint.py',ignore_lists,need_astyle_file))
+			os.system("python %s --filter=%s %s" % ('.\\tools\cpplint\cpplint.py',ignore_lists,need_astyle_file))
