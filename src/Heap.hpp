@@ -10,9 +10,7 @@ class Heap {
     int size;
 
     void swap(int x, int y) {
-        T t = data[x];
-        data[x] = data[y];
-        data[y] = t;
+        Basic :: swapElement(&data[x], &data[y]);
     }
 
  public:

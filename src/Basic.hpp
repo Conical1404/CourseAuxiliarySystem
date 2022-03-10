@@ -28,3 +28,11 @@ struct GreaterEqual {
         return lhs >= rhs;
     }
 };
+
+namespace Basic {
+    template<class T>
+    void swapElement(T *x, T *y) {
+        T t = *x;
+        *x = *y; *y = t;
+    }
+}
