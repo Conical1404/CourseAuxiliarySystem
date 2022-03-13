@@ -69,7 +69,7 @@ shortestPath(int startVertex, int endVertex, T inf, T zero) {
     Vector<int> pre(vertexNum + 1, 0);
     Vector<T> preEdge(vertexNum + 1, inf);
     Heap<Pair<T, int>, Greater<Pair<T, int> > > Q;
-    Vector<Pair<T, int> > shortestPath;
+    Vector<Pair<T, int> > path;
     Q.push(Pair<T, int> (zero, startVertex));
     dis[startVertex] = zero;
     int tot = 0;
@@ -89,10 +89,9 @@ shortestPath(int startVertex, int endVertex, T inf, T zero) {
             }
     }
     for (int vertex = endVertex; vertex != startVertex; vertex = pre[vertex])
-        shortestPath.pushBack(Pair<T, int> (preEdge[vertex], vertex));
-    shortestPath.reverse();
-    return shortestPath;
-    // fprintf(stderr, "-------------\n");
+        path.pushBack(Pair<T, int> (preEdge[vertex], vertex));
+    path.reverse();
+    return path;
 }
 
 template<class T>
@@ -107,16 +106,13 @@ Vector<T> Graph<T> :: singleSourceShortestPath(int startVertex, T inf, T zero) {
         Q.pop();
         if (dis[tmp.second] != tmp.first)
             continue;
-        // fprintf(stderr, "%d %d %d\n", ++tot, tmp.second, (int) tmp.first);
         for (int index = head[tmp.second]; index != 0; index = next[index])
             if (dis[end[index]] > weight[index] + tmp.first) {
-                // fprintf(stderr, "%d %d\n", tmp.second, end[index]);
                 dis[end[index]] = weight[index] + tmp.first;
                 Q.push(Pair<T, int> (dis[end[index]], end[index]));
             }
     }
     return dis;
-    // fprintf(stderr, "-------------\n");
 }
 
 template<class T>
@@ -151,7 +147,7 @@ shortestPath(int startVertex, int endVertex, \
         }
     T ansDis = inf;
     Array<int> nextVertex(vertexNum);
-    Vector<Pair<T, int> > shortestPath;
+    Vector<Pair<T, int> > path;
     int tmp;
     for (int vertex = 0; vertex < num; vertex++)
         if (ansDis > f[(1 << num) - 1][vertex] + dis[vertex][endVertex]) {
@@ -160,13 +156,14 @@ shortestPath(int startVertex, int endVertex, \
         }
     nextVertex[midVertex[tmp]] = endVertex;
     int state = (1 << num) - 1;
-    while (tmp != startVertex) {
+    while (state != (1 << tmp)) {
         int p = pre[state][tmp];
         nextVertex[midVertex[p]] = midVertex[tmp];
         state ^= (1 << tmp);
         tmp = p;
     }
-    for (tmp = startVertex; tmp != endVertex; tmp = nextVertex[tmp])
-        shortestPath = shortestPath + shortestPath(tmp, nextVertex[tmp]);
-    return shortestPath;
+    path = shortestPath(startVertex, midVertex[tmp], inf, zero);
+    for (tmp = midVertex[tmp]; tmp != endVertex; tmp = nextVertex[tmp])
+        path = path + shortestPath(tmp, nextVertex[tmp], inf, zero);
+    return path;
 }

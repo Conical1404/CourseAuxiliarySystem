@@ -59,7 +59,15 @@ class Vector {
     T &operator[](int index) {
         return data[index];
     }
-    Vector<T> operator + (const Vector<T> &other) {
+    Vector<T>& operator = (Vector<T> other) {
+        data = reinterpret_cast<T*> (malloc(64 * sizeof(T)));
+        maxLength = 64;
+        size = 0;
+        for (int index = 0; index < other.getSize(); index++)
+            pushBack(other[index]);
+        return *this;
+    }
+    Vector<T> operator + (Vector<T> other) {
         Vector<T> ans = *this;
         for (int index = 0; index < other.getSize(); index++)
             ans.pushBack(other[index]);
