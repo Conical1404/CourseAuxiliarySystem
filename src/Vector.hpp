@@ -1,5 +1,6 @@
 #pragma once
 #include <stdlib.h>
+#include "Basic.hpp"
 
 template <class T>
 class Vector {
@@ -38,6 +39,7 @@ class Vector {
     }
     ~Vector() {
         free(data);
+        data = NULL;
     }
     int getSize() {
         return size;
@@ -56,5 +58,16 @@ class Vector {
     }
     T &operator[](int index) {
         return data[index];
+    }
+    Vector<T> operator + (const Vector<T> &other) {
+        Vector<T> ans = *this;
+        for (int index = 0; index < other.getSize(); index++)
+            ans.pushBack(other[index]);
+        return ans;
+    }
+    void reverse() {
+        for (int index = 0; index * 2 < size; index++) {
+            Basic :: swapElement(&data[index], &data[size - index - 1]);
+        }
     }
 };
