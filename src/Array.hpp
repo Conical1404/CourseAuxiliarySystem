@@ -12,6 +12,7 @@ class Array {
     Array(int n, T x);
     ~Array();
     T& operator[](const int &index);
+    Array<T>& operator = (Array other);
 };
 
 template<class T>
@@ -42,4 +43,13 @@ Array<T> :: ~Array() {
 template<class T>
 T& Array<T> :: operator[](const int &index) {
     return data[index];
+}
+
+template<class T>
+Array<T>& Array<T> :: operator = (Array other) {
+    data = reinterpret_cast<T*> (malloc(other.maxN * sizeof(T)));
+    maxN = other.maxN;
+    for (int index = 0; index < maxN; index++)
+        data[index] = other[index];
+    return *this;
 }

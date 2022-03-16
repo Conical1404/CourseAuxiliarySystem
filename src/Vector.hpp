@@ -60,6 +60,7 @@ class Vector {
         return data[index];
     }
     Vector<T>& operator = (Vector<T> other) {
+        free(data);
         data = reinterpret_cast<T*> (malloc(64 * sizeof(T)));
         maxLength = 64;
         size = 0;

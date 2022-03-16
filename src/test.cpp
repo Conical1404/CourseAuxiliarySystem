@@ -11,7 +11,7 @@ int main() {
         scanf("%d%d%d", &u, &v, &w);
         G.addDirectedEdge(u, v, w);
     }
-    Vector<int> dis = G.singleSourceShortestPath(1, 0x3f3f3f3f, 0);
+    Array<int> dis = G.singleSourceShortestPath(1, 0x3f3f3f3f, 0);
     for (int i = 1; i <= n; i++)
         printf("%d%c", dis[i], " \n" [i == n]);
     Vector<int> midVex;
