@@ -10,7 +10,8 @@
 template<class T>
 class Graph {
  private:
-    Vector<int> head, end, next;
+    Array<int> head;
+    Vector<int> end, next;
     Vector<T> weight;
     int vertexNum, edgeNum;
 
@@ -22,23 +23,20 @@ class Graph {
     void addUndirectedEdge(int u, int v, T w);
     Vector<Pair<T, int> > shortestPath(int startVertex, \
                                        int endVertex, T inf, T zero);
-    Vector<T> singleSourceShortestPath(int startVertex, T inf, T zero);
+    Array<T> singleSourceShortestPath(int startVertex, T inf, T zero);
     Vector<Pair<T, int> > shortestPath(int startVertex, int endVertex, \
                                        T inf, T zero, Vector<int> midVertex);
 };
 
 template<class T>
-Graph<T> :: Graph() : vertexNum(0), edgeNum(0) {
-    head.pushBack(0);
+Graph<T> :: Graph() : vertexNum(0), edgeNum(0), head() {
     end.pushBack(0);
     next.pushBack(0);
     weight.pushBack(*(new T));
 }
 
 template<class T>
-Graph<T> :: Graph(int n) : vertexNum(n), edgeNum(0) {
-    for (int index = 0; index <= n; index++)
-        head.pushBack(0);
+Graph<T> :: Graph(int n) : vertexNum(n), edgeNum(0), head(n + 1, 0) {
     end.pushBack(0);
     next.pushBack(0);
     weight.pushBack(*(new T));
@@ -65,9 +63,9 @@ void Graph<T> :: addUndirectedEdge(int u, int v, T w) {
 template<class T>
 Vector<Pair<T, int> > Graph<T> ::
 shortestPath(int startVertex, int endVertex, T inf, T zero) {
-    Vector<T> dis(vertexNum + 1, inf);
-    Vector<int> pre(vertexNum + 1, 0);
-    Vector<T> preEdge(vertexNum + 1, inf);
+    Array<T> dis(vertexNum + 1, inf);
+    Array<int> pre(vertexNum + 1, 0);
+    Array<T> preEdge(vertexNum + 1, inf);
     Heap<Pair<T, int>, Greater<Pair<T, int> > > Q;
     Vector<Pair<T, int> > path;
     Q.push(Pair<T, int> (zero, startVertex));
@@ -95,8 +93,8 @@ shortestPath(int startVertex, int endVertex, T inf, T zero) {
 }
 
 template<class T>
-Vector<T> Graph<T> :: singleSourceShortestPath(int startVertex, T inf, T zero) {
-    Vector<T> dis(vertexNum + 1, inf);
+Array<T> Graph<T> :: singleSourceShortestPath(int startVertex, T inf, T zero) {
+    Array<T> dis(vertexNum + 1, inf);
     Heap<Pair<T, int>, Greater<Pair<T, int> > > Q;
     Q.push(Pair<T, int> (zero, startVertex));
     dis[startVertex] = zero;
@@ -119,14 +117,14 @@ template<class T>
 Vector<Pair<T, int> > Graph<T> ::
 shortestPath(int startVertex, int endVertex, \
              T inf, T zero, Vector<int> midVertex) {
-    const int maxVertex = 21;
-    const int maxState = (1 << 20) | 1;
     // T F[maxState][21];
+    int num = midVertex.getSize();
+    int maxVertex = num + 1;
+    const int maxState = (1 << num) | 1;
     DyadicArray<T> f(maxState, maxVertex, inf);
     DyadicArray<int> pre(maxState, maxVertex, 0);
-    int num = midVertex.getSize();
-    Vector<T> startDis = singleSourceShortestPath(startVertex, inf, zero);
-    Array<Vector<T> > dis(num);
+    Array<T> startDis = singleSourceShortestPath(startVertex, inf, zero);
+    Array<Array<T> > dis(num);
     for (int index = 0; index < num; index++) {
         dis[index] = singleSourceShortestPath(midVertex[index], inf, zero);
         f[1 << index][index] = startDis[midVertex[index]];
@@ -146,7 +144,7 @@ shortestPath(int startVertex, int endVertex, \
             }
         }
     T ansDis = inf;
-    Array<int> nextVertex(vertexNum);
+    Array<int> nextVertex(vertexNum + 1);
     Vector<Pair<T, int> > path;
     int tmp;
     for (int vertex = 0; vertex < num; vertex++)
