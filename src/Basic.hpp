@@ -36,3 +36,13 @@ namespace Basic {
         *x = *y; *y = t;
     }
 }
+
+struct Time{
+    int week, day, hour;
+    Time(int w, int d, int h) : week(w), day(d), hour(h) {  }
+    Time(){
+        week = 0;
+        day = 0;
+        hour = 0;
+    }
+};
