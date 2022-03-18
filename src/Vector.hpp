@@ -81,4 +81,4 @@ class Vector {
     }
 };
 
-typedef Vector<char> ByteVector;
+typedef Vector<unsigned char> ByteVector;

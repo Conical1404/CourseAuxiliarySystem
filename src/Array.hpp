@@ -53,3 +53,5 @@ Array<T>& Array<T> :: operator = (Array other) {
         data[index] = other[index];
     return *this;
 }
+
+typedef Array<unsigned char> ByteArray;

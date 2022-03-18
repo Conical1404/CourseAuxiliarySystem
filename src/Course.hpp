@@ -1,7 +1,9 @@
 #pragma once
 #include <stdlib.h>
 #include "Basic.hpp"
+#include "String.hpp"
 #include "Vector.hpp"
+#include "Array.hpp"
 #include "Pair.hpp"
 
 class Course {
@@ -15,7 +17,7 @@ class Course {
 
     class Material {
      private:
-        String mname;
+        String name;
         ByteArray md5;
         Time updatetime;
         String path;
@@ -54,7 +56,7 @@ class Course {
 
  public:
     String getname() {
-        return cooursename;
+        return coursename;
     }
     int getloc() {
         return location;
