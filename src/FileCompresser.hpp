@@ -1,5 +1,6 @@
 #pragma once
 #include <stdio.h>
+#include <string>
 #include <stdint.h>
 
 #include "Heap.hpp"
@@ -29,8 +30,8 @@ class HuffmanTree {
     int frequency[256];
     TreeNode* root;
     Heap<TreeNode*, NodeCompare> priQueue;
-    Pair<int64_t, int> charCode[256];
-    void inorder(TreeNode*, int64_t, int);
+    std::string charCode[256];
+    void inorder(TreeNode*, std::string);
 
  public:
     HuffmanTree();
@@ -89,19 +90,20 @@ Vector<unsigned char> HuffmanTree::encode(Vector<unsigned char> text) {
     Vector<unsigned char> result;
     int bitCount = 0;
     unsigned char temp = 0;
+    std::string emptyString = "";
     for (int i = 0; i < text.getSize(); i++) {
         frequency[text[i]]++;
     }
     bulidTree(frequency);
-    inorder(root, 0, 0);
+    inorder(root, emptyString);
     for (int i = 0; i < text.getSize(); i++) {
-        int64_t num = charCode[text[i]].first;
-        int length = charCode[text[i]].second;
-        for (int j = length - 1; j >= 0; j--) {
-            if ((num & (1 << j)) == 0)
-                temp = temp * 2;
+        std::string temps = charCode[text[i]];
+        int length = charCode[text[i]].size();
+        for (int j = 0; j < length; j++) {
+            if (temps[j] == '0')
+                temp = temp << 1;
             else
-                temp = temp * 2 + 1;
+                temp = temp << 1 | 1;
             ++bitCount;
             ++totalBits;
             if (bitCount == 8) {
@@ -113,20 +115,18 @@ Vector<unsigned char> HuffmanTree::encode(Vector<unsigned char> text) {
     }
     if (bitCount > 0) temp = temp << (8 - bitCount);
     result.pushBack(temp);
-    totalBits += bitCount;
     printf("%d\n", totalBits);
     return result;
 }
 
-void HuffmanTree::inorder(TreeNode* root, int64_t num, int depth) {
+void HuffmanTree::inorder(TreeNode* root, std::string s) {
     if (root == nullptr) return;
     if (root->left == nullptr && root->right == nullptr) {
-        charCode[root->c] = Pair<int64_t, int>(num, depth);
-        // printf("%c->%d %d\n", root->c, charCode[root->c].first, depth);
+        charCode[root->c] = s;
         return;
     }
-    inorder(root->left, (num << 1), depth + 1);
-    inorder(root->right, (num << 1) + 1, depth + 1);
+    inorder(root->left, s + '0');
+    inorder(root->right, s + '1');
     return;
 }
 Vector<unsigned char> HuffmanTree::decode(Vector<unsigned char> code) {
