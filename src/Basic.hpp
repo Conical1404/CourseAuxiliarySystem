@@ -44,11 +44,16 @@ namespace Basic {
 }  // namespace Basic
 
 struct Time{
-    int week, day, hour;
-    Time(int w, int d, int h) : week(w), day(d), hour(h) {  }
+    int week, day, hour, min;
+    //Time(int w, int d, int h, int m = 0) : week(w), day(d), hour(h), min(m) {  }
+    Time(int d, int h, int m, int w = 1) : week(w), day(d), hour(h), min(m) {  }
     Time(){
         week = 0;
         day = 0;
         hour = 0;
+        min = 0;
+    }
+    int calMinutes(){
+        return ((day - 1) * 24 + hour) * 60 + min;
     }
 };
