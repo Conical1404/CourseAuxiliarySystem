@@ -35,7 +35,13 @@ namespace Basic {
         T t = *x;
         *x = *y; *y = t;
     }
-}
+
+    template<class T>
+    T getMax(T x, T y) {
+        if (x > y) return x;
+        return y;
+    }
+}  // namespace Basic
 
 struct Time{
     int week, day, hour;
