@@ -7,8 +7,9 @@
 class segmentTree {
  //此线段树对时间区间的操作为左闭右闭，即活动开始时间也不能同结束时间相同
  private:
-    bool timeSegment[40320];  //一周分钟数(7*24*60)*4 true代表未被占用
-    short lazy[40320];
+    bool timeSegment[13445];  //一学期小时数(20*7*24)*4 true代表未被占用
+    short lazy[13445];
+    Vector<Pair<Time,Time>> arrangement;
     void pushUp(int index) {
         timeSegment[index] =
             timeSegment[index << 1] && timeSegment[index << 1 | 1];
@@ -65,31 +66,31 @@ class segmentTree {
 
  public:
     segmentTree() {
-        for (int i = 0; i < 40320; i++) {
+        for (int i = 0; i < 13440; i++) {
             timeSegment[i] = true;
             lazy[i] = 0;
         }
     }
     segmentTree(segmentTree& other) {
-        for (int i = 0; i < 40320; i++) {
+        for (int i = 0; i < 13440; i++) {
             timeSegment[i] = other.timeSegment[i];
             lazy[i] = other.lazy[i];
         }
     }
 
     bool insert(Pair<Time, Time> t) {
-        int start = t.first.calMinutes();
-        int end = t.second.calMinutes();
-        if (!query(start, end, 1, 10080, 1))  // 10080 = 7*24*60(一周的分钟数)
+        int start = t.first.calHours();
+        int end = t.second.calHours();
+        if (!query(start, end, 1, 3360, 1))  // 3360 = 20*7*24(一周的分钟数)
             return false;
         else {
-            update(start, end, false, 1, 10080, 1);
+            update(start, end, false, 1, 3360, 1);
             return true;
         }
     }
     void remove(Pair<Time, Time> t) {
-        int start = t.first.calMinutes();
-        int end = t.second.calMinutes();
-        update(start, end, true, 1, 10080, 1);
+        int start = t.first.calHours();
+        int end = t.second.calHours();
+        update(start, end, true, 1, 3360, 1);
     }
 };
