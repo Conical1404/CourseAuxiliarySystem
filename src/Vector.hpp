@@ -80,3 +80,5 @@ class Vector {
         }
     }
 };
+
+typedef Vector<unsigned char> ByteVector;
