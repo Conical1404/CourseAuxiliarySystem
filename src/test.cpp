@@ -1,24 +1,14 @@
 #include <stdio.h>
+#include <time.h>
+#include <windows.h>
 
 #include "FileCompresser.hpp"
 
 int main() {
-    Vector<unsigned char> s;
-    Vector<unsigned char> w;
-    Vector<unsigned char> v;
-    for (int i = 1; i <= 30; i++) {
-        unsigned char c = 'A' + i;
-        for (int j = i; j > 0; j--) {
-            s.pushBack(c);
-        }
-    }
+    time_t t = clock();
     HuffmanTree e;
-    w = e.encode(s);
-    v = e.decode(w);
-    for (int i = 0; i < s.getSize(); i++) printf("%c", s[i]);
-    printf("\n");
-    for (int i = 0; i < w.getSize(); i++) printf("%d ", w[i]);
-    printf("\n");
-    for (int i = 0; i < v.getSize(); i++) printf("%c", v[i]);
+    e.upload("D:/project/CourseAuxiliarySystem/src","D:/project/CourseAuxiliarySystem/src/test.pdf");
+    e.download("D:/project/CourseAuxiliarySystem/","D:/project/CourseAuxiliarySystem/src","test.pdf");
+    printf("%d\n",clock()-t);
     return 0;
 }
