@@ -66,7 +66,7 @@
     <property name="styleSheet">
      <string notr="true">QWidget#leftWidget{border-image: url(:/left);}</string>
     </property>
-    <widget class="QLabel" name="Hour_1">
+    <widget class="QLabel" name="hour1">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -82,13 +82,13 @@
       </font>
      </property>
      <property name="text">
-      <string>H</string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="Hour_2">
+    <widget class="QLabel" name="hour2">
      <property name="geometry">
       <rect>
        <x>100</x>
@@ -104,13 +104,13 @@
       </font>
      </property>
      <property name="text">
-      <string>H</string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="Min_1">
+    <widget class="QLabel" name="min1">
      <property name="geometry">
       <rect>
        <x>230</x>
@@ -126,13 +126,13 @@
       </font>
      </property>
      <property name="text">
-      <string>M</string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="Min_2">
+    <widget class="QLabel" name="min2">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -148,7 +148,7 @@
       </font>
      </property>
      <property name="text">
-      <string>M</string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -166,13 +166,13 @@
      <property name="font">
       <font>
        <family>Agency FB</family>
-       <pointsize>18</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
+       <pointsize>16</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
-      <string>一</string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -196,10 +196,13 @@
       </font>
      </property>
      <property name="text">
-      <string>01</string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+     <property name="indent">
+      <number>-1</number>
      </property>
     </widget>
     <widget class="QLabel" name="month">
@@ -220,13 +223,13 @@
       </font>
      </property>
      <property name="text">
-      <string>四</string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="datelabel">
+    <widget class="QLabel" name="date">
      <property name="geometry">
       <rect>
        <x>241</x>
@@ -244,7 +247,7 @@
       </font>
      </property>
      <property name="text">
-      <string>10</string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -365,6 +368,40 @@ color: rgba(255, 255, 255, 0);</string>
       <string/>
      </property>
     </widget>
+    <widget class="QPushButton" name="inform">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>350</y>
+       <width>181</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgba(255, 255, 255, 0);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="exam">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>530</y>
+       <width>181</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgba(255, 255, 255, 0);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="rightWidget" native="true">
     <property name="geometry">
@@ -403,6 +440,23 @@ color: rgba(255, 255, 255, 0);</string>
        <width>20</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="user">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>660</y>
+       <width>181</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgba(255, 255, 255, 0);</string>
      </property>
      <property name="text">
       <string/>

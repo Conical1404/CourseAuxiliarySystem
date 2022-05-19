@@ -2,5 +2,15 @@
     <qresource prefix="/">
         <file alias="left">left.png</file>
         <file alias="right">right.png</file>
+        <file alias="calander">calander.png</file>
+        <file alias="guide">guide.png</file>
+        <file alias="class">class.png</file>
+        <file alias="class2">class2.png</file>
+        <file alias="init">init.png</file>
+        <file alias="login">login.png</file>
+        <file alias="clock">clock.png</file>
+        <file alias="clockIcon">icon.png</file>
+        <file alias="left1">manage1.png</file>
+        <file alias="right1">manage2.png</file>
     </qresource>
 </RCC>
