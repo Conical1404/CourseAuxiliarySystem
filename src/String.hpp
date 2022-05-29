@@ -15,6 +15,7 @@ class String {
  public:
     String();
     explicit String(char* x);
+    String(const String& v);
     ~String();
     int getSize();
     void pushBack(char c);
@@ -37,6 +38,12 @@ String :: StringNode :: StringNode(char x) {
 String :: StringNode :: ~StringNode() { }
 
 String :: String() {
+    head = new StringNode;
+    tail = head;
+    size = 0;
+}
+
+String :: String(const String &v) {
     head = new StringNode;
     tail = head;
     size = 0;

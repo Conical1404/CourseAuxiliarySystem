@@ -5,6 +5,7 @@
 #include "Vector.hpp"
 #include "Array.hpp"
 #include "Pair.hpp"
+#include "AVL.hpp"
 
 class Course {
  private:
@@ -13,7 +14,6 @@ class Course {
     String classroom;
     Pair<Time, Time> coursetime;
     Pair<int, int> courseweek;
-    // 此处等待一棵平衡树
 
     class Material {
      private:
