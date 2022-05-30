@@ -1,24 +1,24 @@
 #include <stdio.h>
-#include "Graph.hpp"
-#include "Heap.hpp"
-#include "Pair.hpp"
+
+#include "FileCompresser.hpp"
 
 int main() {
-    int n, m;
-    scanf("%d%d", &n, &m);
-    Graph<int> G(n);
-    for (int u, v, w; m--; ) {
-        scanf("%d%d%d", &u, &v, &w);
-        G.addDirectedEdge(u, v, w);
+    Vector<unsigned char> s;
+    Vector<unsigned char> w;
+    Vector<unsigned char> v;
+    for (int i = 1; i <= 30; i++) {
+        unsigned char c = 'A' + i;
+        for (int j = i; j > 0; j--) {
+            s.pushBack(c);
+        }
     }
-    Array<int> dis = G.singleSourceShortestPath(1, 0x3f3f3f3f, 0);
-    for (int i = 1; i <= n; i++)
-        printf("%d%c", dis[i], " \n" [i == n]);
-    Vector<int> midVex;
-    midVex.pushBack(2);
-    auto path = G.shortestPath(1, 6, 0x3f3f3f3f, 0, midVex);
-    for (int i = 0; i < path.getSize(); i++) {
-        printf("%d %d\n", path[i].first, path[i].second);
-    }
+    HuffmanTree e;
+    w = e.encode(s);
+    v = e.decode(w);
+    for (int i = 0; i < s.getSize(); i++) printf("%c", s[i]);
+    printf("\n");
+    for (int i = 0; i < w.getSize(); i++) printf("%d ", w[i]);
+    printf("\n");
+    for (int i = 0; i < v.getSize(); i++) printf("%c", v[i]);
     return 0;
 }
