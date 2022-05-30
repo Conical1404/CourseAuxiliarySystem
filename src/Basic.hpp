@@ -54,7 +54,7 @@ struct Time{
         hour = 0;
     }
     explicit Time(int hor) {  // 允许直接输入小时，自动转化为 Time 类型
-        week = hor / (24 * 7);
+        week = hor / (24 * 7) + 1;
         hor = hor % (24 * 7);
         day = hor / 24 + 1;
         hour = hor % 24;
@@ -72,7 +72,7 @@ struct Time{
     }
     void operator = (const int h) {
         int hor = h;
-        week = hor / (24 * 7);
+        week = hor / (24 * 7) + 1;
         hor = hor % (24 * 7);
         day = hor / 24 + 1;
         hour = hor % 24;

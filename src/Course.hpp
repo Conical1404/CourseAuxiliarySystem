@@ -137,7 +137,7 @@ class Course_Sys {
  private:
     AVL<Course_ptr> CourseTree;
     int cnt;
-    Course* CourseArray[200];
+    Course* CourseArray[200];  // Array
 
  public:
     Course_Sys();

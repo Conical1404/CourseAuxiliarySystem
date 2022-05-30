@@ -20,7 +20,7 @@ class String {
     int getSize() const;
     void pushBack(char c);
     char* data() const;
-    String& operator = (String other);
+    String& operator = (const String &other);
     String operator + (String other);
     bool operator < (String other);
 };
@@ -89,7 +89,7 @@ char* String :: data() const {
     return str;
 }
 
-String& String :: operator = (String other) {
+String& String :: operator = (const String &other) {
     auto iter = head;
     while (iter != tail) {
         auto tmp = iter -> next;
