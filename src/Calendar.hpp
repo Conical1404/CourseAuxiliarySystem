@@ -31,6 +31,7 @@ Vector<itinerary> Calendar :: show_week(int week) {
     Seg.search_time_seg(1, 1, 3360, l, r, searchans, &asize);
     for (int i = 0; i < asize; i ++) ans.pushBack(searchans[i]);
     // 在此处根据文件路径读入考试文件即可，或者可以在前端实现
+    // 具体在前端实现吧
     return ans;
 }
 
