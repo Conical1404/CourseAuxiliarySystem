@@ -53,6 +53,12 @@ struct Time{
         day = 0;
         hour = 0;
     }
+    explicit Time(int hor) {  // 允许直接输入小时，自动转化为 Time 类型
+        week = hor / (24 * 7);
+        hor = hor % (24 * 7);
+        day = hor / 24 + 1;
+        hour = hor % 24;
+    }
     int calHours() {
         return ((week - 1) * 7 + day - 1) * 24 + hour;
     }
@@ -63,6 +69,13 @@ struct Time{
         week = other.week;
         day = other.day;
         hour = other.hour;
+    }
+    void operator = (const int h) {
+        int hor = h;
+        week = hor / (24 * 7);
+        hor = hor % (24 * 7);
+        day = hor / 24 + 1;
+        hour = hor % 24;
     }
     bool operator < (const Time& other) const {
         if (week != other.week) return week < other.week;

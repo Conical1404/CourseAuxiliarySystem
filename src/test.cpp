@@ -5,10 +5,10 @@
 #include "FileCompresser.hpp"
 
 int main() {
-    time_t t = clock();
-    HuffmanTree e;
-    e.upload("D:/project/CourseAuxiliarySystem/src","D:/project/CourseAuxiliarySystem/src/test.pdf");
-    e.download("D:/project/CourseAuxiliarySystem/","D:/project/CourseAuxiliarySystem/src","test.pdf");
-    printf("%d\n",clock()-t);
-    return 0;
+    // time_t t = clock();
+    // HuffmanTree e;
+    // e.upload("D:/project/CourseAuxiliarySystem/src","D:/project/CourseAuxiliarySystem/src/test.pdf");
+    // e.download("D:/project/CourseAuxiliarySystem/","D:/project/CourseAuxiliarySystem/src","test.pdf");
+    // printf("%d\n",clock()-t);
+    // return 0;
 }

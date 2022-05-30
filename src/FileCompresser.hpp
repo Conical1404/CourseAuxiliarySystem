@@ -45,7 +45,7 @@ class HuffmanTree {
     HuffmanTree();
     ~HuffmanTree();
     void upload(const std::string, const std::string);
-    void download(const std::string, const std::string ,const std::string);
+    void download(const std::string, const std::string, const std::string);
 };
 
 TreeNode::TreeNode() : weight(0), left(nullptr), right(nullptr) {}
@@ -147,7 +147,7 @@ Vector<unsigned char> HuffmanTree::decode(const Vector<unsigned char>& code) {
     int count = 7;
     int index = 0;
     TreeNode* cur = root;
-    //printf("%d\n",code.getSize());
+    // printf("%d\n",code.getSize());
     while (index < code.getSize() && totalBits > 0) {
         int bit = (code[index] & (1 << count)) == 0 ? 0 : 1;
         if (count == 0) {
