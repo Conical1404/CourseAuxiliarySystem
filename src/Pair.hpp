@@ -11,6 +11,7 @@ class Pair {
     void operator = (const Pair<T1, T2> &other);
     bool operator < (const Pair<T1, T2> &other) const;
     bool operator > (const Pair<T1, T2> &other) const;
+    bool operator == (const Pair<T1, T2> &other) const;
 };
 
 template <class T1, class T2>
@@ -27,4 +28,9 @@ bool Pair<T1, T2> :: operator < (const Pair<T1, T2> &other) const {
 template <class T1, class T2>
 bool Pair<T1, T2> :: operator > (const Pair<T1, T2> &other) const {
     return first == other.first ? second > other.second : first > other.first;
+}
+
+template <class T1, class T2>
+bool Pair<T1, T2> :: operator == (const Pair<T1, T2> &other) const {
+    return first == other.first && second == other.second;
 }
