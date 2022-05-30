@@ -11,7 +11,7 @@ class Array {
     explicit Array(int n);
     Array(int n, T x);
     ~Array();
-    T& operator[](const int &index);
+    T& operator[](const int &index) const;
     Array<T>& operator = (Array other);
     int getSize();
 };
@@ -47,7 +47,7 @@ Array<T> :: ~Array() {
 }
 
 template<class T>
-T& Array<T> :: operator[](const int &index) {
+T& Array<T> :: operator[](const int &index) const {
     return data[index];
 }
 

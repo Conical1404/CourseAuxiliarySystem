@@ -55,11 +55,11 @@ class Vector {
         if (size == 0) return;
         size--;
     }
-    bool isEmpty() {
+    bool isEmpty() const {
         if (size == 0) return 1;
         return 0;
     }
-    T &operator[](int index) const { return data[index]; }
+    T &operator[](const int index) const { return data[index]; }
     Vector<T> &operator=(Vector<T> other) {
         free(data);
         data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
