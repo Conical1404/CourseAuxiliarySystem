@@ -23,14 +23,9 @@ class String {
     void pushBack(char c);
     char* data() const;
     String& operator = (const String &other);
-<<<<<<< HEAD
-    String operator + (String other);
-    bool operator < (String other);
-=======
     String& operator = (char *str);
     String operator + (const String &other);
     bool operator < (const String &other);
->>>>>>> 628528162ce61e1964baf79716672df8b539b32f
 };
 
 String :: StringNode :: StringNode() {
@@ -93,10 +88,7 @@ char* String :: data() const {
 }
 
 String& String :: operator = (const String &other) {
-<<<<<<< HEAD
-=======
     char *str = other.data();
->>>>>>> 628528162ce61e1964baf79716672df8b539b32f
     auto iter = head;
     while (iter != tail) {
         auto tmp = iter -> next;
