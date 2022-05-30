@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "Basic.hpp"
 
 template <class T>
@@ -6,11 +7,9 @@ class AVL{
  private:
     int size;
     class AVLNode{
-     private:
-        int size, deep;
-        T data;
-
      public:
+        T data;
+        int size, deep;
         AVLNode* left;
         AVLNode* right;
         AVLNode() {
@@ -76,32 +75,33 @@ class AVL{
     };
     AVLNode* root;
     void update(AVLNode *x) {
-        if (x == NULL) return 0;
-        x->size = getSize(x->left) + getSize(x->right) + 1;
-        x->deep = Basic :: getMax<int>(getDeep(x->left), getDeep(x->right)) + 1;
+        if (x == NULL) return;
+        x->size = x->getSize(x->left) + x->getSize(x->right) + 1;
+        x->deep = Basic :: getMax<int>(x->getDeep(x->left),
+                                        x->getDeep(x->right)) + 1;
     }
     void leftLeft(AVLNode** u) {
-        AVLNode* v = *u -> left;
-        *u -> left = v -> right;
+        AVLNode* v = (*u) -> left;
+        (*u) -> left = v -> right;
         v -> right = *u;
-        update(u);
-        update(&v);
-        u = v;
+        update(*u);
+        update(v);
+        *u = v;
     }
     void rightRight(AVLNode** u) {
-        AVLNode* v = *u -> right;
-        *u -> right = v -> left;
+        AVLNode* v = (*u) -> right;
+        (*u) -> right = v -> left;
         v -> left = *u;
-        update(u);
-        update(&v);
-        u = v;
+        update(*u);
+        update(v);
+        *u = v;
     }
     void leftRight(AVLNode** u) {
-        rightRight(*u -> left);
+        rightRight(&((*u) -> left));
         leftLeft(u);
     }
     void rightLeft(AVLNode** u) {
-        leftLeft(*u -> right);
+        leftLeft(&((*u) -> right));
         rightRight(u);
     }
 
@@ -110,13 +110,13 @@ class AVL{
         size = 0;
         root = NULL;
     }
-    AVLNode* getRoot() {
-        return root;
+    AVLNode** getRoot() {
+        return &root;
     }
     void Free(AVLNode** u) {
         if (*u == NULL) return;
-        Free(&(*u->left));
-        Free(&(*u->right));
+        Free(&((*u)->left));
+        Free(&((*u)->right));
         free(*u);
         *u = NULL;
     }
@@ -129,22 +129,22 @@ class AVL{
             *u = new AVLNode(d);
             return 0;
         }
-        if (d == *u->data) return 1;  // 出现重复
-        if (d < *u->data) {
-            bool f = insert(&(*u->left), d);
+        if (d == (*u)->data) return 1;  // 出现重复
+        if (d < (*u)->data) {
+            bool f = insert(&((*u)->left), d);
             if (f) return 1;
             update(*u);
-            if (*u->getDeep(*u->left) - *u->getDeep(*u->right) == 2) {
-                if (x < *u->left->data) leftLeft(u);
+            if ((*u)->getDeep((*u)->left) - (*u)->getDeep((*u)->right) == 2) {
+                if (d < (*u)->left->data) leftLeft(u);
                 else
                     leftRight(u);
             }
         } else {
-            bool f = insert(&(*u->right), d);
+            bool f = insert(&((*u)->right), d);
             if (f) return 1;
             update(*u);
-            if (*u->getDeep(*u->right) - *u->getDeep(*u->left) == 2) {
-                if (x < *u->right->data) rightLeft(u);
+            if ((*u)->getDeep((*u)->right) - (*u)->getDeep((*u)->left) == 2) {
+                if (d < (*u)->right->data) rightLeft(u);
                 else
                     rightRight(u);
             }
@@ -168,51 +168,53 @@ class AVL{
     }
     bool Delete(AVLNode** u, T d) {
         if (*u == NULL) return 0;
-        if (d < *u->data) {
-            bool f = Delete(&(*u->left), d);
+        if (d < (*u)->data) {
+            bool f = Delete(&((*u)->left), d);
             if (f == 0) return 0;
             update(*u);
-            if (*u->getDeep(*u->right) - *u->getDeep(*u->left) == 2) {
-                if (*u->getDeep(*u->right->left) > \
-                    *u->getDeep(*u->right->right))
+            if ((*u)->getDeep((*u)->right) - (*u)->getDeep((*u)->left) == 2) {
+                if ((*u)->getDeep((*u)->right->left) > \
+                    (*u)->getDeep((*u)->right->right))
                     rightLeft(u);
                 else
                     rightRight(u);
             }
         } else {
-            if (d > *u->data) {
-                bool f = Delete(&(*u->right), d);
+            if (d > (*u)->data) {
+                bool f = Delete(&((*u)->right), d);
                 if (f == 0) return 0;
                 update(*u);
-                if (*u->getDeep(*u->left) - *u->getDeep(*u->right) == 2) {
-                    if (*u->getDeep(*u->left->right) > \
-                        *u->getDeep(*u->left->left))
+                if ((*u)->getDeep((*u)->left) -
+                    (*u)->getDeep((*u)->right) == 2) {
+                    if ((*u)->getDeep((*u)->left->right) > \
+                        (*u)->getDeep((*u)->left->left))
                         leftRight(u);
                     else
                         leftLeft(u);
                 }
             } else {
-                if (*u->left == NULL || *u->right == NULL) {
-                    if (*u->left) {
-                        *u = *u->left;
+                if ((*u)->left == NULL || (*u)->right == NULL) {
+                    if ((*u)->left) {
+                        (*u) = (*u)->left;
                         return 1;
                     }
-                    if (*u->right) {
-                        *u = *u->right;
+                    if ((*u)->right) {
+                        *u = (*u)->right;
                         return 1;
                     }
                     *u = NULL;
                     update(*u);
                     return 1;
                 } else {
-                    AVLNode* v = *u->right;
+                    AVLNode* v = (*u)->right;
                     while (v->left) v = v->left;
-                    *u->data = v->data;
-                    Delete(&(*u->right), v->data);
+                    (*u)->data = v->data;
+                    Delete(&((*u)->right), v->data);
                     update(*u);
-                    if (*u->getDeep(*u->left) - *u->getDeep(*u->right) == 2) {
-                        if (*u->getDeep(*u->left->right) > \
-                            *u->getDeep(*u->left->left))
+                    if ((*u)->getDeep((*u)->left) -
+                        (*u)->getDeep((*u)->right) == 2) {
+                        if ((*u)->getDeep((*u)->left->right) > \
+                            (*u)->getDeep((*u)->left->left))
                             leftRight(u);
                         else
                             leftLeft(u);
@@ -222,5 +224,11 @@ class AVL{
         }
         update(*u);
         return 1;
+    }
+    void show_AVL(AVLNode* u) {
+        if (u == NULL) return;
+        std::cout << u->data << " ";
+        if (u->left) show_AVL(u->left);
+        if (u->right) show_AVL(u->right);
     }
 };

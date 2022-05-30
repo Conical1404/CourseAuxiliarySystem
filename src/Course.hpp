@@ -55,6 +55,10 @@ class Test {  // 这是用来从文件读到课程里
     Time get_end_time() {
         return testtime.second;
     }
+    Test operator = (const Test other) {
+        testtime = other.testtime;
+        cid = other.cid;
+    }
 };
 
 class Course {
@@ -70,6 +74,25 @@ class Course {
     Test test;  // 这里放考试信息
 
  public:
+    Course() {  }
+    ~Course() { }
+    Course(int id, String name, int loc, String cls,
+            Pair<Time, Time> ctime, Pair<int, int> cweek) {
+        courseid = id;
+        coursename = name;
+        classroom = cls;
+        coursetime = ctime;
+        courseweek = cweek;
+    }
+    explicit Course(const Course &other) {
+        courseid = other.courseid;
+        coursename = other.coursename;
+        location = other.location;
+        classroom = other.classroom;
+        coursetime = other.coursetime;
+        courseweek = other.courseweek;
+        test = other.test;
+    }
     String getname() {  // 获得课程名称
         return coursename;
     }
@@ -101,3 +124,51 @@ class Course {
         return test;
     }
 };
+
+struct Course_ptr {
+    Course* ptr;
+    bool operator < (Course_ptr other) {
+        return ptr->getname() < other.ptr->getname();
+    }
+    // 这里可以再重载其他运算符
+};
+
+class Course_Sys {
+ private:
+    AVL<Course_ptr> CourseTree;
+    int cnt;
+    Course* CourseArray[200];
+
+ public:
+    Course_Sys();
+    ~Course_Sys();
+
+    void add_course(String name, String cls, int loc,
+                    Time btime, Time etime, int bweek, int eweek);
+};
+
+Course_Sys :: Course_Sys() {
+    cnt = 0;
+    for (int i = 0; i < 200; i++) CourseArray[i] = NULL;
+}
+
+Course_Sys :: ~Course_Sys() {
+    for (int i = 0; i < cnt; i++) {
+        delete CourseArray[i];
+    }
+}
+
+void Course_Sys :: add_course(String name, String cls, int loc,
+                            Time btime, Time etime, int bweek, int eweek) {
+    Pair<Time, Time> ctime;
+    Pair<int, int> cweek;
+    ctime.first = btime;
+    ctime.second = etime;
+    cweek.first = bweek;
+    cweek.second = eweek;
+    Course* newcourse = new Course(cnt, name, loc, cls, ctime, cweek);
+    Course_ptr nc;
+    nc.ptr = newcourse;
+    if (CourseTree.exist(*CourseTree.getRoot(), nc)) return;
+    CourseTree.insert(CourseTree.getRoot(), nc);
+}
