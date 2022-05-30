@@ -17,9 +17,9 @@ class String {
     explicit String(char* x);
     String(const String& v);
     ~String();
-    int getSize();
+    int getSize() const;
     void pushBack(char c);
-    char* data();
+    char* data() const;
     String& operator = (String other);
     String operator + (String other);
     bool operator < (String other);
@@ -44,9 +44,20 @@ String :: String() {
 }
 
 String :: String(const String &v) {
+    // head = new StringNode;
+    // tail = head;
+    // size = 0;
+    auto iter = head;
+    while (iter != tail) {
+        auto tmp = iter -> next;
+        free(iter), iter = tmp;
+    }
+    free(tail);
     head = new StringNode;
-    tail = head;
-    size = 0;
+    tail = head; size = 0;
+    char *str = v.data();
+    for (int index = 0; index < v.getSize(); index++)
+        pushBack(str[index]);
 }
 
 String :: ~String() {
@@ -59,7 +70,7 @@ String :: ~String() {
     head = tail = NULL;
 }
 
-int String :: getSize() {
+int String :: getSize() const {
     return size;
 }
 
@@ -70,7 +81,7 @@ void String :: pushBack(char c) {
     ++size;
 }
 
-char* String :: data() {
+char* String :: data() const {
     char* str = reinterpret_cast<char*> (malloc(size * sizeof(char)));
     int index = 0;
     for (auto iter = head; iter != tail; iter = iter -> next)
