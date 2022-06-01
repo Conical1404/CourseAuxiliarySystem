@@ -12,9 +12,10 @@ class itinerary{
     int campus;
     int location;
  public:
-    itinerary() {   }
+    itinerary();
     itinerary(Pair<Time, Time> tt, String n, int c, int l);
-    ~itinerary() {  }
+    itinerary(const itinerary &other);
+    ~itinerary();
     Pair<Time, Time> getTime();
     void setTime(Pair<Time, Time> tt);
     String getName();
@@ -24,62 +25,95 @@ class itinerary{
     void setLocation(int c, int l);
     bool operator < (const itinerary &other) const;
     bool operator > (const itinerary &other) const;
+    bool operator == (const itinerary &other) const;
+    itinerary operator = (const itinerary &other);
     void print();
     // 日程显示函数，怎么打印出来好看
 };
 
-itinerary :: itinerary(Pair<Time, Time> tt, String n, int c, int l) {
-    printf("???\n");
-    t = tt;
-    printf("1\n");
-    name = n;
-    printf("2\n");
-    campus = c;
-    printf("3\n");
-    location = l;
-    printf("!!!\n");
+itinerary :: itinerary() {
+    // printf("!!Init!!\n");
+    campus = 0;
+    location = 0;
 }
 
-Pair<Time, Time> itinerary :: getTime() {
+itinerary :: ~itinerary() {
+    // printf("!!released!!\n");
+}
+
+itinerary :: itinerary(Pair<Time, Time> tt, String n, int c, int l) {  // 1
+    // printf("???\n");
+    t = tt;
+    // printf("1\n");
+    name = n;
+    // printf("2\n");
+    campus = c;
+    // printf("3\n");
+    location = l;
+    // printf("!!!\n");
+}
+
+itinerary :: itinerary(const itinerary &other) {
+    t = other.t;
+    name = other.name;
+    campus = other.campus;
+    location = other.location;
+}
+
+Pair<Time, Time> itinerary :: getTime() {  // 1
     return t;
 }
 
-void itinerary :: setTime(Pair<Time, Time> tt) {
+void itinerary :: setTime(Pair<Time, Time> tt) {  // 1
     t = tt;
 }
 
-String itinerary :: getName() {
+String itinerary :: getName() {  // 1
     return name;
 }
 
-void itinerary :: setName(String n) {
-    printf("Ready to RE!\n");
+void itinerary :: setName(String n) {  // 1
+    // printf("Ready to RE!\n");
     name = n;
-    printf("Not RE.\n");
+    // printf("Not RE.\n");
 }
 
-int itinerary :: getCampus() {
+int itinerary :: getCampus() {  // 1
     return campus;
 }
 
-int itinerary :: getLocation() {
+int itinerary :: getLocation() {  // 1
     return location;
 }
 
-void itinerary :: setLocation(int c, int l) {
+void itinerary :: setLocation(int c, int l) {  // 1
     campus = c;
     location = l;
 }
 
-bool itinerary :: operator < (const itinerary &other) const {
+bool itinerary :: operator < (const itinerary &other) const {  // 1
     return t < other.t;
 }
 
-bool itinerary :: operator > (const itinerary &other) const {
+bool itinerary :: operator > (const itinerary &other) const {  // 1
     return t > other.t;
 }
 
-void itinerary :: print() {
+bool itinerary :: operator == (const itinerary &other) const {  // 1
+    return t == other.t;
+}
+
+itinerary itinerary :: operator = (const itinerary &other) {
+    t = other.t;
+    name = other.name;
+    campus = other.campus;
+    location = other.location;
+    // printf("! ");
+    // print();
+    return *this;
+}
+
+void itinerary :: print() {  // 1
     printf("Begin time: %d %d %d End time: %d %d %d ", t.first.week,
             t.first.day, t.first.hour, t.second.week,
             t.second.day, t.second.hour);
@@ -167,6 +201,7 @@ class segmentTree {
     }
     void update(int start, int end, bool state, int curLeft, int curRight,
                 int index, itinerary* p) {
+        // printf("%d %d %d\n", index, curLeft, curRight);
         if (start <= curLeft && end >= curRight) {
             lazy[index] = state ? 1 : -1;
             timeSegment[index].value = state ? 1 : 0;
@@ -202,10 +237,12 @@ class segmentTree {
     bool insert(Pair<Time, Time> t, itinerary* p) {
         int start = t.first.calHours();
         int end = t.second.calHours();
+        // printf("%d %d\n", start, end);
         if (!query(start, end, 1, 3360, 1)) {  // 3360 = 20*7*24(一周的分钟数)
+            // printf("*1\n");
             return false;
         } else {
-            printf("Ready to insert!\n");
+            // printf("Ready to insert!\n");
             update(start, end, false, 1, 3360, 1, p);
             return true;
         }
@@ -216,13 +253,15 @@ class segmentTree {
         update(start, end, true, 1, 3360, 1);
     }
     void print(int index) {
+    // 这个输出函数不能判重，只适合看一下线段树里面有什么
         // for(int i = 1; i < 20001; i++)
         //     printf("%d %d\n", i, timeSegment[i].purity);
         // printf("index: %d purity: %d\n", index, timeSegment[index].purity);
+        // printf("%d ", index);
         if (timeSegment[index].purity) {
             itinerary* p = timeSegment[index].point;
             p->print();
-            printf("Ended!\n");
+            // printf("Ended!\n");
         } else {
             if ((index << 1) > 13440) return;
             print(index << 1);
@@ -233,13 +272,37 @@ class segmentTree {
     void search_time_seg(int index, int ul, int ur, int l,
                         int r, itinerary* ans, int *asize) {
         if (ur < l || ul > r) return;
+        // printf("%d %d %d %d %d\n", index, ul, ur, l, r);
         if (timeSegment[index].point) {
-            ans[(*asize)++] = *timeSegment[index].point;
+            // printf("!!! %d %d %d %d %d\n", index, ul, ur, l, r);
+            if ((*asize) > 0) ans[(*asize) - 1].print();
+            timeSegment[index].point->print();
+            if ((*asize) == 0 ||
+                !(ans[(*asize) - 1] == *timeSegment[index].point)) {
+                // printf("Begin to add\n");
+                ans[(*asize)] = *timeSegment[index].point;
+                // (*timeSegment[index].point).print();
+                // ans[(*asize)].print();
+                (*asize) = (*asize) + 1;
+                // printf("Ended!\n");
+                if ((*asize) == 2) {
+                    printf("---\n");
+                    for (int i = 0; i < (*asize); i ++) {
+                        ans[i].print();
+                        printf("Point : %p\n", &ans[i]);
+                    }
+                }
+            }
             return;
         } else {
-            search_time_seg(index << 1, ul, (ul + ur) >> 1,
+            if (ul == ur) return;
+            int mid = ul+ ((ur - ul) >> 1);
+            // printf("? %d %d %d %d %d %d", ul, ur, ul, mid, mid + 1, ur);
+            if ((index << 1) > 13440) return;
+            search_time_seg(index << 1, ul, mid,
                             l, r, ans, asize);
-            search_time_seg(index << 1 | 1, (ul + ur) >> 1 + 1, ur,
+            if ((index << 1 | 1) > 13440) return;
+            search_time_seg(index << 1 | 1, mid + 1, ur,
                             l, r, ans, asize);
         }
     }

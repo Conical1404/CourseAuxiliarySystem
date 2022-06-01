@@ -3,17 +3,24 @@
 // using namespace std;
 
 int main() {
-    Pair<Time, Time> p, q;
+    Pair<Time, Time> p;
     p.first = 1000;
     p.second = 1002;
-    char s[] = "Name";
+    Calendar a;
+    Vector<itinerary> ans;
+    char s[] = "NAME";
     String str;
     str = s;
-    itinerary a(p, str, 1, 1);
-    q = a.getTime();
-    printf("%d %d %d\n%d %d %d\n", q.first.week, q.first.day,
-        q.first.hour, q.second.week, q.second.day, q.second.hour);
-    printf("%s\n", a.getName().data());
-    printf("%d %d\n", a.getCampus(), a.getLocation());
+    itinerary* b = a.newItinerary(p, str, 1, 1);
+    p.first = 1003;
+    p.second = 1004;
+    itinerary* c = a.newItinerary(p, str, 2, 2);
+    printf("***\n");
+    ans = a.show_week(6);
+    printf("?");
+    printf("%d \n", ans.getSize());
+    for (int i = 0; i < ans.getSize(); i++)
+        ans[i].print();
+    printf("?");
     return 0;
 }
