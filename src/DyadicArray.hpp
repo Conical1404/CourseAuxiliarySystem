@@ -11,7 +11,7 @@ class DyadicArray {
     DyadicArray(int n, int m);
     DyadicArray(int n, int m, T x);
     ~DyadicArray();
-    T* operator[](const int &index);
+    T* operator[](const int &index) const;
 };
 
 template<class T>
@@ -40,6 +40,6 @@ DyadicArray<T> :: ~DyadicArray() {
 }
 
 template<class T>
-T* DyadicArray<T> :: operator[](const int &index) {
+T* DyadicArray<T> :: operator[](const int &index) const {
     return data + index * maxM;
 }

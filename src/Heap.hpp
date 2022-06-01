@@ -29,16 +29,16 @@ class Heap {
         }
     }
 
-    T top() {
+    T top() const {
         return data[1];
     }
 
-    bool isEmpty() {
+    bool isEmpty() const {
         if (size == 0) return 1;
         return 0;
     }
 
-    int getSize() {
+    int getSize() const {
         return size;
     }
 

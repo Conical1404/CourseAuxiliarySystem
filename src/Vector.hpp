@@ -1,7 +1,9 @@
 #pragma once
 #include <stdlib.h>
+
 #include "Basic.hpp"
 
+// 已经完成测试
 template <class T>
 class Vector {
  private:
@@ -9,77 +11,74 @@ class Vector {
     int maxLength;
     int size;
     void reNew(int newLength) {
-        T *newData = reinterpret_cast<T*> (malloc(newLength * sizeof(T)));
-        for (int i = 0; i < size; i++)
-            newData[i] = data[i];
+        T *newData = reinterpret_cast<T *>(malloc(newLength * sizeof(T)));
+        for (int i = 0; i < size; i++) newData[i] = data[i];
         free(data);
         data = newData;
         maxLength = newLength;
     }
 
  public:
-    Vector() {
-        data = reinterpret_cast<T*> (malloc(64 * sizeof(T)));
+    Vector() {  // 已测试
+        data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
         maxLength = 64;
         size = 0;
     }
-    explicit Vector(int n) {
-        data = reinterpret_cast<T*> (malloc(64 * sizeof(T)));
+    explicit Vector(int n) {  // 已测试
+        data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
         maxLength = 64;
         size = 0;
-        for (int index = 1; index <= n; index++)
-            pushBack(*(new T));
+        for (int index = 1; index <= n; index++) pushBack(*(new T));
     }
-    Vector(int n, T x) {
-        data = reinterpret_cast<T*> (malloc(64 * sizeof(T)));
+    Vector(int n, T x) {  // 已测试
+        data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
         maxLength = 64;
         size = 0;
-        for (int index = 1; index <= n; index++)
-            pushBack(x);
+        for (int index = 1; index <= n; index++) pushBack(x);
+    }
+    Vector(const Vector<T> &other) {  // 已测试
+        data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
+        maxLength = 64;
+        size = 0;
+        for (int index = 0; index < other.getSize(); index++)
+            pushBack(other[index]);
     }
     ~Vector() {
         free(data);
         data = NULL;
     }
-    int getSize() {
-        return size;
-    }
-    void pushBack(T e) {
+    int getSize() const { return size; }  // 已测试
+    void pushBack(T e) {  // 已测试
         if (size == maxLength) reNew(maxLength << 1);
         data[size++] = e;
     }
-    void popBack() {
+    void popBack() {  // 已测试
         if (size == 0) return;
         size--;
     }
-    bool isEmpty() {
+    bool isEmpty() const {  // 已测试
         if (size == 0) return 1;
         return 0;
     }
-    T &operator[](int index) {
-        return data[index];
-    }
-    T* data() {
-        return data;
-    }
-    Vector<T>& operator = (Vector<T> other) {
+    T &operator[](const int &index) const { return data[index]; }  // 已测试
+    Vector<T> &operator=(Vector<T> other) {  // 已测试
         free(data);
-        data = reinterpret_cast<T*> (malloc(64 * sizeof(T)));
+        data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
         maxLength = 64;
         size = 0;
         for (int index = 0; index < other.getSize(); index++)
             pushBack(other[index]);
         return *this;
     }
-    Vector<T> operator + (Vector<T> other) {
+    Vector<T> operator+(Vector<T> other) {   // 已测试
         Vector<T> ans = *this;
         for (int index = 0; index < other.getSize(); index++)
             ans.pushBack(other[index]);
         return ans;
     }
-    void reverse() {
+    void reverse() {  // 已测试
         for (int index = 0; index * 2 < size; index++) {
-            Basic :: swapElement(&data[index], &data[size - index - 1]);
+            Basic ::swapElement(&data[index], &data[size - index - 1]);
         }
     }
 };
