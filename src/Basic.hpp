@@ -45,8 +45,6 @@ namespace Basic {
 
 struct Time{
     int week, day, hour;
-    // Time(int w, int d, int h, int m = 0) :
-    // week(w), day(d), hour(h), min(m) {  }
     Time(int d, int h, int w = 1) : week(w), day(d), hour(h) {  }
     Time() {
         week = 0;
