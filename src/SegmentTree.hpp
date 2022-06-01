@@ -7,11 +7,15 @@
 
 class itinerary{
  private:
+    // Pair<Time, Time> t;
+    // String name;
+    // int campus;
+    // int location;
+ public:
     Pair<Time, Time> t;
     String name;
     int campus;
     int location;
- public:
     itinerary();
     itinerary(Pair<Time, Time> tt, String n, int c, int l);
     itinerary(const itinerary &other);

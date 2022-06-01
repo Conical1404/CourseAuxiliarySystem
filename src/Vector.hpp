@@ -49,8 +49,22 @@ class Vector {
     }
     int getSize() const { return size; }  // 已测试
     void pushBack(T e) {  // 已测试
+        printf("1\n");
         if (size == maxLength) reNew(maxLength << 1);
+        printf("2\n");
+        e.print();
+        data[size].print();
+        printf("3\n");
+        data[size].t = e.t;
+        printf("4\n");
+        data[size].campus = e.campus;
+        printf("5\n");
+        data[size].location = e.location;
+        printf("6\n");
+        data[size].name = e.name;
+        printf("7\n");
         data[size++] = e;
+        printf("8\n");
     }
     void popBack() {  // 已测试
         if (size == 0) return;

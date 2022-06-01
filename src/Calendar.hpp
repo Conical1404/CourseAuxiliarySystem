@@ -34,10 +34,14 @@ Vector<itinerary> Calendar :: show_week(int week) {
     printf("2\n");
     printf("anssize = %d\n", asize);
     for (int i = 0; i < asize; i ++) {
-        searchans[asize].print();
+        searchans[i].print();
         printf("out Point : %p\n", &searchans[i]);
     }
+    printf("?\n");
+    searchans[0].print();
+    ans.pushBack(searchans[0]);
     // for (int i = 0; i < asize; i ++) ans.pushBack(searchans[i]);
+    printf("?\n");
     // printf("%d %d\n", asize, ans.getSize());
     // 在此处根据文件路径读入考试文件即可，或者可以在前端实现
     return ans;
