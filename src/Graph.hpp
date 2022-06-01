@@ -1,52 +1,51 @@
 #pragma once
 #include <stdlib.h>
 #include <stdio.h>
+#include "EdgeNode.hpp"
 #include "DyadicArray.hpp"
 #include "Vector.hpp"
 #include "Array.hpp"
 #include "Heap.hpp"
 #include "Pair.hpp"
 
-template<class T>
 class Graph {
  private:
     Array<int> head;
     Vector<int> end, next;
-    Vector<T> weight;
+    Vector<EdgeNode> weight;
     int vertexNum, edgeNum;
 
  public:
     Graph();
     explicit Graph(int n);
     ~Graph();
-    void addDirectedEdge(int u, int v, T w);
-    void addUndirectedEdge(int u, int v, T w);
-    Vector<Pair<T, int> > shortestPath(int startVertex, \
-                                       int endVertex, T inf, T zero);
-    Array<T> singleSourceShortestPath(int startVertex, T inf, T zero);
-    Vector<Pair<T, int> > shortestPath(int startVertex, int endVertex, \
-                                       T inf, T zero, Vector<int> midVertex);
+    void addDirectedEdge(int u, int v, EdgeNode w);
+    void addUndirectedEdge(int u, int v, EdgeNode w);
+    template<typename F>
+    Vector<Pair<EdgeNode, int> > shortestPath
+        (int startVertex, int endVertex, double *ans);
+    template<typename F>
+    Vector<Pair<EdgeNode, int> > shortestPath
+        (int startVertex, int endVertex, Vector<int> midVertex, double *ans);
+    template<typename F>
+    Array<double> singleSourceShortestPath(int startVertex);
 };
 
-template<class T>
-Graph<T> :: Graph() : vertexNum(0), edgeNum(0), head() {
+Graph :: Graph() : vertexNum(0), edgeNum(0), head() {
     end.pushBack(0);
     next.pushBack(0);
-    weight.pushBack(*(new T));
+    weight.pushBack(*(new EdgeNode));
 }
 
-template<class T>
-Graph<T> :: Graph(int n) : vertexNum(n), edgeNum(0), head(n + 1, 0) {
+Graph :: Graph(int n) : vertexNum(n), edgeNum(0), head(n + 1, 0) {
     end.pushBack(0);
     next.pushBack(0);
-    weight.pushBack(*(new T));
+    weight.pushBack(*(new EdgeNode));
 }
 
-template<class T>
-Graph<T> :: ~Graph() { }
+Graph :: ~Graph() { }
 
-template<class T>
-void Graph<T> :: addDirectedEdge(int u, int v, T w) {
+void Graph :: addDirectedEdge(int u, int v, EdgeNode w) {
     ++edgeNum;
     next.pushBack(head[u]);
     end.pushBack(v);
@@ -54,22 +53,21 @@ void Graph<T> :: addDirectedEdge(int u, int v, T w) {
     head[u] = edgeNum;
 }
 
-template<class T>
-void Graph<T> :: addUndirectedEdge(int u, int v, T w) {
+void Graph :: addUndirectedEdge(int u, int v, EdgeNode w) {
     addDirectedEdge(u, v, w);
     addDirectedEdge(v, u, w);
 }
 
-template<class T>
-Vector<Pair<T, int> > Graph<T> ::
-shortestPath(int startVertex, int endVertex, T inf, T zero) {
-    Array<T> dis(vertexNum + 1, inf);
+template<typename F>
+Vector<Pair<EdgeNode, int> > Graph ::
+shortestPath(int startVertex, int endVertex, double *ans) {
+    Array<double> dis(vertexNum + 1, 1e18);
     Array<int> pre(vertexNum + 1, 0);
-    Array<T> preEdge(vertexNum + 1, inf);
-    Heap<Pair<T, int>, Greater<Pair<T, int> > > Q;
-    Vector<Pair<T, int> > path;
-    Q.push(Pair<T, int> (zero, startVertex));
-    dis[startVertex] = zero;
+    Array<EdgeNode> preEdge(vertexNum + 1, infEdge);
+    Heap<Pair<double, int>, Greater<Pair<double, int> > > Q;
+    Vector<Pair<EdgeNode, int> > path;
+    Q.push(Pair<double, int> (0, startVertex));
+    dis[startVertex] = 0;
     int tot = 0;
     while (!Q.isEmpty()) {
         auto tmp = Q.top();
@@ -78,26 +76,27 @@ shortestPath(int startVertex, int endVertex, T inf, T zero) {
             continue;
         // fprintf(stderr, "%d %d %d\n", ++tot, tmp.second, (int) tmp.first);
         for (int index = head[tmp.second]; index != 0; index = next[index])
-            if (dis[end[index]] > weight[index] + tmp.first) {
+            if (dis[end[index]] > F()(weight[index]) + F()(tmp.first)) {
                 // fprintf(stderr, "%d %d\n", tmp.second, end[index]);
-                dis[end[index]] = weight[index] + tmp.first;
+                dis[end[index]] = F()(weight[index]) + F()(tmp.first);
                 pre[end[index]] = tmp.second;
                 preEdge[end[index]] = weight[index];
-                Q.push(Pair<T, int> (dis[end[index]], end[index]));
+                Q.push(Pair<double, int> (dis[end[index]], end[index]));
             }
     }
+    *ans = dis[endVertex];
     for (int vertex = endVertex; vertex != startVertex; vertex = pre[vertex])
-        path.pushBack(Pair<T, int> (preEdge[vertex], vertex));
+        path.pushBack(Pair<EdgeNode, int> (preEdge[vertex], vertex));
     path.reverse();
     return path;
 }
 
-template<class T>
-Array<T> Graph<T> :: singleSourceShortestPath(int startVertex, T inf, T zero) {
-    Array<T> dis(vertexNum + 1, inf);
-    Heap<Pair<T, int>, Greater<Pair<T, int> > > Q;
-    Q.push(Pair<T, int> (zero, startVertex));
-    dis[startVertex] = zero;
+template<typename F>
+Array<double> Graph :: singleSourceShortestPath(int startVertex) {
+    Array<double> dis(vertexNum + 1, 1e18);
+    Heap<Pair<double, int>, Greater<Pair<double, int> > > Q;
+    Q.push(Pair<double, int> (0, startVertex));
+    dis[startVertex] = 0;
     int tot = 0;
     while (!Q.isEmpty()) {
         auto tmp = Q.top();
@@ -105,35 +104,38 @@ Array<T> Graph<T> :: singleSourceShortestPath(int startVertex, T inf, T zero) {
         if (dis[tmp.second] != tmp.first)
             continue;
         for (int index = head[tmp.second]; index != 0; index = next[index])
-            if (dis[end[index]] > weight[index] + tmp.first) {
-                dis[end[index]] = weight[index] + tmp.first;
-                Q.push(Pair<T, int> (dis[end[index]], end[index]));
+            if (dis[end[index]] > F()(weight[index]) + F()(tmp.first)) {
+                dis[end[index]] = F()(weight[index]) + F()(tmp.first);
+                Q.push(Pair<double, int> (dis[end[index]], end[index]));
             }
     }
     return dis;
 }
 
-template<class T>
-Vector<Pair<T, int> > Graph<T> ::
-shortestPath(int startVertex, int endVertex, \
-             T inf, T zero, Vector<int> midVertex) {
+template<typename F>
+Vector<Pair<EdgeNode, int> > Graph :: shortestPath(
+    int startVertex,
+    int endVertex,
+    Vector<int> midVertex,
+    double *ans
+) {
     // T F[maxState][21];
     int num = midVertex.getSize();
     int maxVertex = num + 1;
     const int maxState = (1 << num) | 1;
-    DyadicArray<T> f(maxState, maxVertex, inf);
+    DyadicArray<double> f(maxState, maxVertex, 1e18);
     DyadicArray<int> pre(maxState, maxVertex, 0);
-    Array<T> startDis = singleSourceShortestPath(startVertex, inf, zero);
-    Array<Array<T> > dis(num);
+    Array<double> startDis = singleSourceShortestPath<F>(startVertex);
+    Array<Array<double> > dis(num);
     for (int index = 0; index < num; index++) {
-        dis[index] = singleSourceShortestPath(midVertex[index], inf, zero);
+        dis[index] = singleSourceShortestPath<F>(midVertex[index]);
         f[1 << index][index] = startDis[midVertex[index]];
     }
     for (int state = 0; state < (1 << num); state++)
         for (int index = 0; index < num; index++) {
             if (~(state >> index) & 1) continue;
-            int w = f[state][index];
-            if (w == inf) continue;
+            double w = f[state][index];
+            if (w > 1e9) continue;
             for (int vertex = 0; vertex < num; vertex++) {
                 if ((state >> vertex) & 1) continue;
                 int newState = state | (1 << vertex);
@@ -143,15 +145,16 @@ shortestPath(int startVertex, int endVertex, \
                 }
             }
         }
-    T ansDis = inf;
+    double ansDis = 1e18;
     Array<int> nextVertex(vertexNum + 1);
-    Vector<Pair<T, int> > path;
+    Vector<Pair<EdgeNode, int> > path;
     int tmp;
     for (int vertex = 0; vertex < num; vertex++)
         if (ansDis > f[(1 << num) - 1][vertex] + dis[vertex][endVertex]) {
             ansDis = f[(1 << num) - 1][vertex] + dis[vertex][endVertex];
             tmp = vertex;
         }
+    *ans = ansDis;
     nextVertex[midVertex[tmp]] = endVertex;
     int state = (1 << num) - 1;
     while (state != (1 << tmp)) {
@@ -160,8 +163,8 @@ shortestPath(int startVertex, int endVertex, \
         state ^= (1 << tmp);
         tmp = p;
     }
-    path = shortestPath(startVertex, midVertex[tmp], inf, zero);
+    path = shortestPath(startVertex, midVertex[tmp]);
     for (tmp = midVertex[tmp]; tmp != endVertex; tmp = nextVertex[tmp])
-        path = path + shortestPath(tmp, nextVertex[tmp], inf, zero);
+        path = path + shortestPath(tmp, nextVertex[tmp]);
     return path;
 }
