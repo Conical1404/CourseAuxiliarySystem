@@ -1,5 +1,6 @@
 #pragma once
 #include <stdlib.h>
+#include <cstring>
 
 #include "Basic.hpp"
 
@@ -12,6 +13,7 @@ class Vector {
     int size;
     void reNew(int newLength) {
         T *newData = reinterpret_cast<T *>(malloc(newLength * sizeof(T)));
+        memset(newData, 0, sizeof(newData));
         for (int i = 0; i < size; i++) newData[i] = data[i];
         free(data);
         data = newData;
@@ -21,23 +23,27 @@ class Vector {
  public:
     Vector() {  // 已测试
         data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
+        memset(data, 0, 64 * sizeof(T));
         maxLength = 64;
         size = 0;
     }
     explicit Vector(int n) {  // 已测试
         data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
+        memset(data, 0, 64 * sizeof(T));
         maxLength = 64;
         size = 0;
         for (int index = 1; index <= n; index++) pushBack(*(new T));
     }
     Vector(int n, T x) {  // 已测试
         data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
+        memset(data, 0, 64 * sizeof(T));
         maxLength = 64;
         size = 0;
         for (int index = 1; index <= n; index++) pushBack(x);
     }
     Vector(const Vector<T> &other) {  // 已测试
         data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
+        memset(data, 0, 64 * sizeof(T));
         maxLength = 64;
         size = 0;
         for (int index = 0; index < other.getSize(); index++)
@@ -49,22 +55,8 @@ class Vector {
     }
     int getSize() const { return size; }  // 已测试
     void pushBack(T e) {  // 已测试
-        printf("1\n");
         if (size == maxLength) reNew(maxLength << 1);
-        printf("2\n");
-        e.print();
-        data[size].print();
-        printf("3\n");
-        data[size].t = e.t;
-        printf("4\n");
-        data[size].campus = e.campus;
-        printf("5\n");
-        data[size].location = e.location;
-        printf("6\n");
-        data[size].name = e.name;
-        printf("7\n");
         data[size++] = e;
-        printf("8\n");
     }
     void popBack() {  // 已测试
         if (size == 0) return;
@@ -74,10 +66,11 @@ class Vector {
         if (size == 0) return 1;
         return 0;
     }
-    T &operator[](const int index) const { return data[index]; }  // 已测试
+    T &operator[](const int &index) const { return data[index]; }  // 已测试
     Vector<T> &operator=(Vector<T> other) {  // 已测试
         free(data);
         data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
+        memset(data, 0, 64 * sizeof(T));
         maxLength = 64;
         size = 0;
         for (int index = 0; index < other.getSize(); index++)

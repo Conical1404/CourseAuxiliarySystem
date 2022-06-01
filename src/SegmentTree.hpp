@@ -279,8 +279,6 @@ class segmentTree {
         // printf("%d %d %d %d %d\n", index, ul, ur, l, r);
         if (timeSegment[index].point) {
             // printf("!!! %d %d %d %d %d\n", index, ul, ur, l, r);
-            if ((*asize) > 0) ans[(*asize) - 1].print();
-            timeSegment[index].point->print();
             if ((*asize) == 0 ||
                 !(ans[(*asize) - 1] == *timeSegment[index].point)) {
                 // printf("Begin to add\n");
@@ -289,13 +287,6 @@ class segmentTree {
                 // ans[(*asize)].print();
                 (*asize) = (*asize) + 1;
                 // printf("Ended!\n");
-                if ((*asize) == 2) {
-                    printf("---\n");
-                    for (int i = 0; i < (*asize); i ++) {
-                        ans[i].print();
-                        printf("Point : %p\n", &ans[i]);
-                    }
-                }
             }
             return;
         } else {
