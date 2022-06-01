@@ -59,6 +59,9 @@ class Vector {
     T &operator[](int index) {
         return data[index];
     }
+    T* data() {
+        return data;
+    }
     Vector<T>& operator = (Vector<T> other) {
         free(data);
         data = reinterpret_cast<T*> (malloc(64 * sizeof(T)));
