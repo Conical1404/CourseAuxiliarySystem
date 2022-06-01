@@ -12,6 +12,7 @@ class Vector {
     int size;
     void reNew(int newLength) {
         T *newData = reinterpret_cast<T *>(malloc(newLength * sizeof(T)));
+        memset(newData, 0, sizeof(newData));
         for (int i = 0; i < size; i++) newData[i] = data[i];
         free(data);
         data = newData;
@@ -21,23 +22,27 @@ class Vector {
  public:
     Vector() {  // 已测试
         data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
+        memset(data, 0, sizeof(data));
         maxLength = 64;
         size = 0;
     }
     explicit Vector(int n) {  // 已测试
         data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
+        memset(data, 0, sizeof(data));
         maxLength = 64;
         size = 0;
         for (int index = 1; index <= n; index++) pushBack(*(new T));
     }
     Vector(int n, T x) {  // 已测试
         data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
+        memset(data, 0, sizeof(data));
         maxLength = 64;
         size = 0;
         for (int index = 1; index <= n; index++) pushBack(x);
     }
     Vector(const Vector<T> &other) {  // 已测试
         data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
+        memset(data, 0, sizeof(data));
         maxLength = 64;
         size = 0;
         for (int index = 0; index < other.getSize(); index++)
@@ -64,6 +69,7 @@ class Vector {
     Vector<T> &operator=(Vector<T> other) {  // 已测试
         free(data);
         data = reinterpret_cast<T *>(malloc(64 * sizeof(T)));
+        memset(data, 0, sizeof(data));
         maxLength = 64;
         size = 0;
         for (int index = 0; index < other.getSize(); index++)
