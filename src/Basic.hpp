@@ -56,6 +56,7 @@ namespace Basic {
             sort(a, j + 1);
     }
 
+    template<class T>
     T getMax(T x, T y) {
         if (x > y) return x;
         return y;

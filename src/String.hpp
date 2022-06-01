@@ -12,6 +12,7 @@ class String {
     };
     int size;
     StringNode *head, *tail;
+
  public:
     String();
     explicit String(char* x);
@@ -20,6 +21,9 @@ class String {
     int getSize() const;
     void pushBack(char c);
     char* data() const;
+    void debug() {
+        printf("%p %p %d\n", head, tail, size);
+    }
     String& operator = (const String &other);
     String& operator = (char *str);
     String operator + (const String &other);
