@@ -7,45 +7,52 @@
 
 class itinerary{
  private:
+    Pair<Time, Time> t;  // 起止时间
+    String name;  // 名称
+    int campus;  // 校区
+    int location;  // 地点
+    int type;  // 类型，个人，集体，其他 = 0
+ public:
     // Pair<Time, Time> t;
     // String name;
     // int campus;
     // int location;
- public:
-    Pair<Time, Time> t;
-    String name;
-    int campus;
-    int location;
-    itinerary();
-    itinerary(Pair<Time, Time> tt, String n, int c, int l);
-    itinerary(const itinerary &other);
-    ~itinerary();
-    Pair<Time, Time> getTime();
-    void setTime(Pair<Time, Time> tt);
-    String getName();
-    void setName(String n);
-    int getCampus();
-    int getLocation();
-    void setLocation(int c, int l);
+    itinerary();  // 构造函数
+    itinerary(Pair<Time, Time> tt, String n, int c, int l, int typ = 0);
+    // 构造函数
+    itinerary(const itinerary &other);  // 拷贝构造函数
+    ~itinerary();  // 析构函数
+    Pair<Time, Time> getTime();  // 获得起止时间
+    void setTime(Pair<Time, Time> tt);  // 设置起止时间
+    String getName();  // 获得名称
+    void setName(String n);  // 设置名称
+    int getCampus();  // 获得校区编号
+    int getLocation();  // 获得地点
+    int getType();  // 获得类型
+    void setLocation(int c, int l);  // 设置校区地点
+    void setType(int t);  // 设置类型
     bool operator < (const itinerary &other) const;
     bool operator > (const itinerary &other) const;
     bool operator == (const itinerary &other) const;
+    // 重载比大小符号，日程大小取决于起止时间的大小
     itinerary operator = (const itinerary &other);
+    // 重载赋值
     void print();
-    // 日程显示函数，怎么打印出来好看
+    // 日程显示函数，在命令行输出一个日程的基本信息
 };
 
 itinerary :: itinerary() {
     // printf("!!Init!!\n");
     campus = 0;
     location = 0;
+    type = 0;
 }
 
 itinerary :: ~itinerary() {
     // printf("!!released!!\n");
 }
 
-itinerary :: itinerary(Pair<Time, Time> tt, String n, int c, int l) {  // 1
+itinerary :: itinerary(Pair<Time, Time> tt, String n, int c, int l, int typ = 0) {  // 1
     // printf("???\n");
     t = tt;
     // printf("1\n");
@@ -55,6 +62,7 @@ itinerary :: itinerary(Pair<Time, Time> tt, String n, int c, int l) {  // 1
     // printf("3\n");
     location = l;
     // printf("!!!\n");
+    type = typ;
 }
 
 itinerary :: itinerary(const itinerary &other) {
@@ -62,6 +70,7 @@ itinerary :: itinerary(const itinerary &other) {
     name = other.name;
     campus = other.campus;
     location = other.location;
+    type = other.type;
 }
 
 Pair<Time, Time> itinerary :: getTime() {  // 1
@@ -86,6 +95,10 @@ int itinerary :: getCampus() {  // 1
     return campus;
 }
 
+int itinerary :: getType() {
+    return type;
+}
+
 int itinerary :: getLocation() {  // 1
     return location;
 }
@@ -93,6 +106,10 @@ int itinerary :: getLocation() {  // 1
 void itinerary :: setLocation(int c, int l) {  // 1
     campus = c;
     location = l;
+}
+
+void itinerary :: setType(int t) {
+    type = t;
 }
 
 bool itinerary :: operator < (const itinerary &other) const {  // 1
@@ -112,6 +129,7 @@ itinerary itinerary :: operator = (const itinerary &other) {
     name = other.name;
     campus = other.campus;
     location = other.location;
+    type = other.type;
     // printf("! ");
     // print();
     return *this;
@@ -122,7 +140,8 @@ void itinerary :: print() {  // 1
             t.first.day, t.first.hour, t.second.week,
             t.second.day, t.second.hour);
     // printf("Name: %s Location: %d %d\n", name.data(), campus, location);
-    printf("Location: %d %d\n", campus, location);
+    printf("Location: %d %d ", campus, location);
+    printf("Type: %d\n", type);
 }
 
 class segmentTree {

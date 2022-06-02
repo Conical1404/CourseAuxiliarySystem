@@ -13,7 +13,7 @@ class Calendar{
     ~Calendar() {   }
     bool isEmpty();
     itinerary* newItinerary(Pair<Time, Time> tt,
-                            String n, int c, int l);
+                            String n, int c, int l, int typ = 0);
     // 新建日程的话，使用这个接口可以新建 + 插入线段树
     // 这个函数用来插入真的很好用，周期性日程在外部加一个 for 循环修改 tt 即可
     bool insert(itinerary* x);  // 如果 itinerary 已经有的话，可以用这个
@@ -67,7 +67,7 @@ bool Calendar :: insert(itinerary* x) {
 }
 
 itinerary* Calendar :: newItinerary(Pair<Time, Time> tt,
-                        String n, int c, int l) {
+                        String n, int c, int l, int typ = 0) {
     // printf("Ready to new:\n");
     itinerary* x = new itinerary;
     // printf("Newed!\n");
@@ -77,6 +77,7 @@ itinerary* Calendar :: newItinerary(Pair<Time, Time> tt,
     // printf("?3\n");
     x->setName(n);
     // printf("?2\n");
+    x->setType(typ);
     if (x == NULL) return x;
     if (insert(x)) return x;
     // printf("Oops!\n");
