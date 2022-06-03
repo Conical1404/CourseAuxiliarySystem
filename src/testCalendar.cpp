@@ -22,5 +22,12 @@ int main() {
     for (int i = 0; i < ans.getSize(); i++)
         ans[i].print();
     printf("?");
+    printf("***\n");
+    ans = a.show_hour(1003);
+    printf("?");
+    printf("%d \n", ans.getSize());
+    for (int i = 0; i < ans.getSize(); i++)
+        ans[i].print();
+    printf("?");
     return 0;
 }

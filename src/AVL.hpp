@@ -166,6 +166,20 @@ class AVL{
         }
         return 0;
     }
+    T search(AVLNode* u, T d) {
+        if (u == NULL) {
+            return d;
+        }
+        if (d == u->data) return u->data;
+        if (d < u->data) {
+            T f = exist(u->left, d);
+            return f;
+        } else {
+            T f = exist(u->right, d);
+            return f;
+        }
+        return d;
+    }
     bool Delete(AVLNode** u, T d) {
         if (*u == NULL) return 0;
         if (d < (*u)->data) {

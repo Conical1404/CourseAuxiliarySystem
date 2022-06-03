@@ -8,16 +8,17 @@
 #include "AVL.hpp"
 #include "KMP.hpp"
 #include "Sort.hpp"
+#include "rbtree.hpp"
 
 class Material {  // 课程资料或作业
  private:
-    bool homework;
+    bool homework;  // 是否为家庭作业
     String courseName;
     String name;  // 文件名
     ByteArray md5;  // md5
     Time updateTime;  // 更新时间
     String path;  // 存储路径
-    Material* nextVersion;
+    Material* nextVersion;  // 版本指针
 
  public:
     Material() {
@@ -64,8 +65,9 @@ class Material {  // 课程资料或作业
         return path;
     }
     Material* getLatestVersion() {
+    // 获得最新版本
         Material* latest = this;
-        while(latest->nextVersion != NULL) {
+        while (latest->nextVersion != NULL) {
             latest = latest->nextVersion;
         }
         return latest;
@@ -83,8 +85,8 @@ struct MaterialPtr {
     bool operator < (Material* other) {
         ByteArray md5 = ptr->getMd5();
         ByteArray oMd5 = other->getMd5();
-        for(int i = 0; i < md5.getSize(); i++){
-            if(md5[i] > oMd5[i])
+        for (int i = 0; i < md5.getSize(); i++) {
+            if (md5[i] > oMd5[i])
                 return false;
         }
         return true;
@@ -92,8 +94,8 @@ struct MaterialPtr {
     bool operator == (Material* other){
         ByteArray md5 = ptr->getMd5();
         ByteArray oMd5 = other->getMd5();
-        for(int i = 0; i < md5.getSize(); i++){
-            if(md5[i] != oMd5[i])
+        for (int i = 0; i < md5.getSize(); i++) {
+            if (md5[i] != oMd5[i])
                 return false;
         }
         return true;
@@ -103,29 +105,31 @@ struct MaterialPtr {
 class MaterialSys {
  private:
     Vector<Material*> materials;
+    RBTree<MaterialPtr> materialTree;
+
  public:
-    MaterialSys() {    };
+    MaterialSys() {    }
     ~MaterialSys() {
-        for(int i = 0; i < materials.getSize(); i++){
+        for (int i = 0; i < materials.getSize(); i++) {
             delete materials[i];
         }
     }
     bool addMaterials(Material* m) {
-        for(int i = 0; i < materials.getSize(); i++) {
-            if(materials[i]->getName() == m->getName()){
+        for (int i = 0; i < materials.getSize(); i++) {
+            if (materials[i]->getName() == m->getName()) {
                 Material* latest;
                 latest = materials[i]->getLatestVersion();
                 latest->setNextVersion(m);
                 return true;
             }
-        }
+        }  // 判断它是否是一次重复提交
         materials.pushBack(m);
         return true;
     }
     Material* getHomeworkByName(const String& name) {
         Material* homework = NULL;
-        for(int i = 0; i < materials.getSize(); i++) {
-            if(materials[i]->getName() == name
+        for (int i = 0; i < materials.getSize(); i++) {
+            if (materials[i]->getName() == name
                 && materials[i]->isHomework()) {
                 homework = materials[i]->getLatestVersion();
             }
@@ -134,8 +138,8 @@ class MaterialSys {
     }
     Material* getDataByName(const String& name) {
         Material* data = NULL;
-        for(int i = 0; i < materials.getSize(); i++) {
-            if(materials[i]->getName() == name
+        for (int i = 0; i < materials.getSize(); i++) {
+            if (materials[i]->getName() == name
                 && materials[i]->isData()) {
                 data = materials[i]->getLatestVersion();
             }
@@ -144,27 +148,27 @@ class MaterialSys {
     }
     Vector<Material*> search(const String& name) {
         Vector<Material*> result;
-        for(int i = 0; i < materials.getSize(); i++) {
+        for (int i = 0; i < materials.getSize(); i++) {
             KMP kmp(materials[i]->getName(), name);
-            if(kmp.isExist()) {
+            if (kmp.isExist()) {
                 Material* tmp = materials[i]->getLatestVersion();
                 result.pushBack(tmp);
             }
         }
         return result;
     }
-    Material* getCertainVersion(const String& name,int t) {
+    Material* getCertainVersion(const String& name, int t) {
         Material* m = NULL;
-        for(int i = 0; i < materials.getSize(); i++) {
-            if(materials[i]->getName() == name) {
+        for (int i = 0; i < materials.getSize(); i++) {
+            if (materials[i]->getName() == name) {
                 m = materials[i];
             }
         }
-        while(t--){
+        while (t--) {
             m = m->getNextVersion();
         }
         return m;
-    }
+    }  // 取得特定版本
 };
 
 class Test {  // 这是用来从文件读到课程里
@@ -177,9 +181,9 @@ class Test {  // 这是用来从文件读到课程里
         testTime.first = 0;
         testTime.second = 0;
     }
-    Test(Time sTime, Time eTime){
+    Test(Time sTime, Time eTime) {
         testTime.first = sTime;
-        testTime.second =eTime;
+        testTime.second = eTime;
     }
     Pair<Time, Time> getTime() {
         return testTime;
@@ -273,8 +277,8 @@ class Course {
     }
     void handIn(String name) {
         int idx =  -1;
-        for(int i = 0; i < toBeHandIn.getSize(); i++) {
-            if(name == toBeHandIn[i]) {
+        for (int i = 0; i < toBeHandIn.getSize(); i++) {
+            if (name == toBeHandIn[i]) {
                 Basic :: swapElement(&toBeHandIn[i],
                 &toBeHandIn[toBeHandIn.getSize() - 1]);
                 toBeHandIn.popBack();
@@ -296,6 +300,13 @@ struct Course_ptr {
     bool operator < (Course_ptr other) {
         return ptr->getName() < other.ptr->getName();
     }
+    bool operator == (Course_ptr other) {
+        return ptr->getName() == other.ptr->getName();
+    }
+    Course_ptr operator = (const Course_ptr &other) {
+        ptr = other.ptr;
+        return *this;
+    }
     // 这里可以再重载其他运算符
 };
 
@@ -312,7 +323,8 @@ class CourseSys {
     void addCourse(String name, String cls, int loc,
                     Time btime, Time etime, int bweek, int eweek);
     Vector<String> getAllCourseNames();
-    Course* getCourseByName(const String& name) const;
+    // Course* getCourseByName(const String& name) const;
+    Course* getCourseByName(const String& name);
     Course* getCourseById(int id);
 };
 
@@ -344,23 +356,35 @@ void CourseSys :: addCourse(String name, String cls, int loc,
 
 Vector<String> CourseSys::getAllCourseNames() {
     Vector<String> courseName;
-    for(int i = 0; i < courseArray.getSize(); i++) {
+    for (int i = 0; i < courseArray.getSize(); i++) {
         courseName.pushBack(courseArray[i]->getName());
     }
     return courseName;
 }
 
-Course* CourseSys::getCourseByName(const String& name) const {
-    for(int i = 0; i < courseArray.getSize(); i++) {
-        if(courseArray[i]->getName() == name)
-            return courseArray[i];
-    }
-    return NULL;
+Course* CourseSys::getCourseByName(const String& name) {
+    // 在AVL中搜索
+    Pair<Time, Time> ctime;
+    Pair<int, int> cweek;
+    String cls;
+    Course* srh = new Course(0, name, 0, cls, ctime, cweek);
+    Course_ptr nc;
+    nc.ptr = srh;
+    Course_ptr ans;
+    courseTree.exist(*courseTree.getRoot(), nc);
+    ans = courseTree.search(*courseTree.getRoot(), nc);
+    if (ans == nc) return NULL;
+    return ans.ptr;
+    // for(int i = 0; i < courseArray.getSize(); i++) {
+    //     if(courseArray[i]->getName() == name)
+    //         return courseArray[i];
+    // }
+    // return NULL;
 }
 
-Course* CourseSys::getCourseById (int id) {
-    for(int i = 0; i < courseArray.getSize(); i++) {
-        if(courseArray[i]->getId() == id)
+Course* CourseSys::getCourseById(int id) {
+    for (int i = 0; i < courseArray.getSize(); i++) {
+        if (courseArray[i]->getId() == id)
             return courseArray[i];
     }
     return NULL;

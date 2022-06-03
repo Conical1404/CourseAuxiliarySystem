@@ -12,6 +12,7 @@ class itinerary{
     int campus;  // 校区
     int location;  // 地点
     int type;  // 类型，个人，集体，其他 = 0
+
  public:
     // Pair<Time, Time> t;
     // String name;
@@ -52,7 +53,8 @@ itinerary :: ~itinerary() {
     // printf("!!released!!\n");
 }
 
-itinerary :: itinerary(Pair<Time, Time> tt, String n, int c, int l, int typ = 0) {  // 1
+itinerary :: itinerary(Pair<Time, Time> tt, String n,
+                        int c, int l, int typ) {  // 1
     // printf("???\n");
     t = tt;
     // printf("1\n");

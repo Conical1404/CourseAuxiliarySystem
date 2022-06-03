@@ -21,6 +21,8 @@ class Calendar{
     void print();
     Vector<itinerary> show_week(int week);
     // 输入周数，把本周的所有日程返回，返回值是日程的Vector，返回前检查考试文件
+    Vector<itinerary> show_hour(int time);
+    // time = (week - 1) * 24 * 7 + (day - 1) * 24 + hour
 };
 
 Vector<itinerary> Calendar :: show_week(int week) {
@@ -40,6 +42,21 @@ Vector<itinerary> Calendar :: show_week(int week) {
     // printf("?\n");
     // searchans[0].print();
     // ans.pushBack(searchans[0]);
+    for (int i = 0; i < asize; i ++) ans.pushBack(searchans[i]);
+    // printf("?\n");
+    // printf("%d %d\n", asize, ans.getSize());
+    // 在此处根据文件路径读入考试文件即可，或者可以在前端实现
+    return ans;
+}
+
+Vector<itinerary> Calendar :: show_hour(int time) {
+    Vector<itinerary> ans;
+    itinerary searchans[200];
+    int asize = 0;
+    int l = time;
+    int r = time;
+    // printf("Begin\n");
+    Seg.search_time_seg(1, 1, 3360, l, r, searchans, &asize);
     for (int i = 0; i < asize; i ++) ans.pushBack(searchans[i]);
     // printf("?\n");
     // printf("%d %d\n", asize, ans.getSize());
@@ -67,7 +84,7 @@ bool Calendar :: insert(itinerary* x) {
 }
 
 itinerary* Calendar :: newItinerary(Pair<Time, Time> tt,
-                        String n, int c, int l, int typ = 0) {
+                        String n, int c, int l, int typ) {
     // printf("Ready to new:\n");
     itinerary* x = new itinerary;
     // printf("Newed!\n");
