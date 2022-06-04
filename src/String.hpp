@@ -1,5 +1,6 @@
 #pragma once
 #include <stdlib.h>
+#include <cstdio>
 
 class String {
  private:
@@ -27,7 +28,9 @@ class String {
     String& operator = (const String &other);
     String& operator = (char *str);
     String operator + (const String &other);
-    bool operator < (const String &other);
+    bool operator < (const String &other) const;
+    bool operator == (const String &other) const;
+    bool operator > (const String &other) const;
 };
 
 String :: StringNode :: StringNode() {
@@ -67,6 +70,7 @@ String :: ~String() {
     }
     free(tail);
     head = tail = NULL;
+    // printf("S!\n");
 }
 
 int String :: getSize() const {
@@ -126,7 +130,7 @@ String String :: operator + (const String &other) {
     return ans;
 }
 
-bool String :: operator < (const String &other) {
+bool String :: operator < (const String &other) const {
     char* str1 = data();
     char* str2 = other.data();
     int n = size;
@@ -135,4 +139,26 @@ bool String :: operator < (const String &other) {
         if (str1[index] ^ str2[index])
             return str1[index] < str2[index];
     return n < m;
+}
+
+bool String :: operator == (const String &other) const {
+    char* str1 = data();
+    char* str2 = other.data();
+    int n = size;
+    int m = other.getSize();
+    for (int index = 0; index < n && index < m; index++)
+        if (str1[index] != str2[index])
+            return false;
+    return n == m;
+}
+
+bool String :: operator > (const String &other) const {
+    char* str1 = data();
+    char* str2 = other.data();
+    int n = size;
+    int m = other.getSize();
+    for (int index = 0; index < n && index < m; index++)
+        if (str1[index] ^ str2[index])
+            return str1[index] > str2[index];
+    return n > m;
 }

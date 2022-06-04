@@ -1,14 +1,31 @@
-#include <stdio.h>
-#include <time.h>
-#include <windows.h>
+#include <bits/stdc++.h>
 
-#include "FileCompresser.hpp"
+#include "rbtree.hpp"
+
+// using namespace std;
+
+RBTree<int> A;
 
 int main() {
-    // time_t t = clock();
-    // HuffmanTree e;
-    // e.upload("D:/project/CourseAuxiliarySystem/src","D:/project/CourseAuxiliarySystem/src/test.pdf");
-    // e.download("D:/project/CourseAuxiliarySystem/","D:/project/CourseAuxiliarySystem/src","test.pdf");
-    // printf("%d\n",clock()-t);
-    // return 0;
+    int n, q;
+    cin >> n >> q;
+    for (int i = 1, x; i <= n; i++) {
+        cin >> x;
+        A.insert(x);
+    }
+    A.print();
+    for (int op, x; q--; ) {
+        cin >> op;
+        if (op == 0) {
+            cin >> x;
+            A.insert(x);
+        } else if (op == 1) {
+            cin >> x;
+            cout << (A.find(x) ? "Yes" : "No") << endl;
+        } else {
+            cout << "Current Rbtree: ";
+            A.print();
+            cout << endl;
+        }
+    }
 }
