@@ -28,6 +28,7 @@ struct RBTree {
     void print();
     void insert(T data);
     bool find(T key);
+    T search(T key);
 };
 
 template<class T>
@@ -109,6 +110,20 @@ bool RBTree<T>::find(T key) {
             u = u -> right;
     }
     return false;
+}
+
+template<class T>
+T RBTree<T>::search(T key) {
+    RBTNode<T> *u = root;
+    while (u) {
+        if (key == u -> data)
+            return u -> data;
+        if (key < u -> data)
+            u = u -> left;
+        else
+            u = u -> right;
+    }
+    return key;
 }
 
 template<class T>

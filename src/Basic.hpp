@@ -46,7 +46,7 @@ namespace Basic {
             while (a[i] < mid) i++;
             while (a[j] > mid) j--;
             if (i <= j) {
-                swapElement(a[i], a[j]);
+                swapElement(&a[i], &a[j]);
                 i++; j--;
             }
         } while (i <= j);

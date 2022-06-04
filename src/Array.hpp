@@ -9,10 +9,11 @@ class Array {
  public:
     Array();
     explicit Array(int n);
+    Array(const Array &other);
     Array(int n, T x);
     ~Array();
     T& operator[](const int &index) const;
-    Array<T>& operator = (Array other);
+    Array<T>& operator = (const Array &other);
     int getSize();
 };
 
@@ -54,12 +55,22 @@ T& Array<T> :: operator[](const int &index) const {
 }
 
 template<class T>
-Array<T>& Array<T> :: operator = (Array other) {
-    data = reinterpret_cast<T*> (malloc(other.maxN * sizeof(T)));
+Array<T>& Array<T> :: operator = (const Array &other) {
+    T *newData = reinterpret_cast<T*> (malloc(other.maxN * sizeof(T)));
     maxN = other.maxN;
     for (int index = 0; index < maxN; index++)
-        data[index] = other[index];
+        newData[index] = other[index];
+    data = newData;
     return *this;
+}
+
+template<class T>
+Array<T>::Array(const Array &other) {
+    T *newData = reinterpret_cast<T*> (malloc(other.maxN * sizeof(T)));
+    maxN = other.maxN;
+    for (int index = 0; index < maxN; index++)
+        newData[index] = other[index];
+    data = newData;
 }
 
 typedef Array<unsigned char> ByteArray;

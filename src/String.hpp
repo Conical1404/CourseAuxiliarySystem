@@ -1,5 +1,6 @@
 #pragma once
 #include <stdlib.h>
+#include <cstdio>
 
 class String {
  private:
@@ -29,6 +30,7 @@ class String {
     String operator + (const String &other);
     bool operator < (const String &other);
     bool operator == (const String &other);
+    bool operator > (const String &other);
 };
 
 String :: StringNode :: StringNode() {
@@ -147,4 +149,15 @@ bool String :: operator == (const String &other) {
         if (str1[index] != str2[index])
             return false;
     return n == m;
+}
+
+bool String :: operator > (const String &other) {
+    char* str1 = data();
+    char* str2 = other.data();
+    int n = size;
+    int m = other.getSize();
+    for (int index = 0; index < n && index < m; index++)
+        if (str1[index] ^ str2[index])
+            return str1[index] > str2[index];
+    return n > m;
 }
