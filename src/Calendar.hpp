@@ -32,7 +32,7 @@ Vector<itinerary> Calendar :: show_week(int week) {
     int l = (week - 1) * 24 * 7;
     int r = week * 24 * 7;
     // printf("Begin\n");
-    Seg.search_time_seg(1, 1, 3360, l, r, searchans, &asize);
+    Seg.search_time_seg(1, 1, 8760, l, r, searchans, &asize);
     // printf("2\n");
     // printf("anssize = %d\n", asize);
     // for (int i = 0; i < asize; i ++) {
@@ -56,7 +56,7 @@ Vector<itinerary> Calendar :: show_hour(int time) {
     int l = time;
     int r = time;
     // printf("Begin\n");
-    Seg.search_time_seg(1, 1, 3360, l, r, searchans, &asize);
+    Seg.search_time_seg(1, 1, 8760, l, r, searchans, &asize);
     for (int i = 0; i < asize; i ++) ans.pushBack(searchans[i]);
     // printf("?\n");
     // printf("%d %d\n", asize, ans.getSize());

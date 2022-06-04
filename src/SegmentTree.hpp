@@ -149,13 +149,13 @@ void itinerary :: print() {  // 1
 class segmentTree {
 // 此线段树对时间区间的操作为左闭右闭，即活动开始时间也不能同结束时间相同
  private:
-    int lazy[13445];
+    int lazy[35105];
     struct SegNode{
         bool value;
         bool purity;
         itinerary* point;
     };
-    SegNode timeSegment[13445];  // 一学期小时数(20*7*24)*4 true代表未被占用
+    SegNode timeSegment[35105];  // 一学期小时数(20*7*24)*4 true代表未被占用
     void pushUp(int index) {
         timeSegment[index].value =
             timeSegment[index << 1].value && timeSegment[index << 1 | 1].value;
@@ -245,7 +245,7 @@ class segmentTree {
 
  public:
     segmentTree() {
-        for (int i = 0; i < 13445; i++) {
+        for (int i = 0; i < 35105; i++) {
             timeSegment[i].value = true;
             timeSegment[i].purity = 0;
             timeSegment[i].point = NULL;
@@ -253,7 +253,7 @@ class segmentTree {
         }
     }
     segmentTree(const segmentTree& other) {
-        for (int i = 0; i < 13445; i++) {
+        for (int i = 0; i < 35105; i++) {
             timeSegment[i] = other.timeSegment[i];
             lazy[i] = other.lazy[i];
         }
@@ -263,19 +263,19 @@ class segmentTree {
         int start = t.first.calHours();
         int end = t.second.calHours();
         // printf("%d %d\n", start, end);
-        if (!query(start, end, 1, 3360, 1)) {  // 3360 = 20*7*24(一周的分钟数)
+        if (!query(start, end, 1, 8760, 1)) {  // 3360 = 20*7*24(一周的分钟数)
             // printf("*1\n");
             return false;
         } else {
             // printf("Ready to insert!\n");
-            update(start, end, false, 1, 3360, 1, p);
+            update(start, end, false, 1, 8760, 1, p);
             return true;
         }
     }
     void remove(Pair<Time, Time> t) {
         int start = t.first.calHours();
         int end = t.second.calHours();
-        update(start, end, true, 1, 3360, 1);
+        update(start, end, true, 1, 8760, 1);
     }
     void print(int index) {
     // 这个输出函数不能判重，只适合看一下线段树里面有什么
@@ -288,9 +288,9 @@ class segmentTree {
             p->print();
             // printf("Ended!\n");
         } else {
-            if ((index << 1) > 13440) return;
+            if ((index << 1) > 35100) return;
             print(index << 1);
-            if ((index << 1 | 1) > 13440) return;
+            if ((index << 1 | 1) > 35100) return;
             print(index << 1 | 1);
         }
     }
@@ -314,10 +314,10 @@ class segmentTree {
             if (ul == ur) return;
             int mid = ul+ ((ur - ul) >> 1);
             // printf("? %d %d %d %d %d %d", ul, ur, ul, mid, mid + 1, ur);
-            if ((index << 1) > 13440) return;
+            if ((index << 1) > 35100) return;
             search_time_seg(index << 1, ul, mid,
                             l, r, ans, asize);
-            if ((index << 1 | 1) > 13440) return;
+            if ((index << 1 | 1) > 35100) return;
             search_time_seg(index << 1 | 1, mid + 1, ur,
                             l, r, ans, asize);
         }

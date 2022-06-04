@@ -38,12 +38,9 @@ class KMP{
             next[i] = j;
         }
         exist = 0;
+        solve();
     }
     ~KMP() {
-        free(s);
-        s = NULL;
-        free(t);
-        t = NULL;
     }
     bool isExist() {
         return exist;

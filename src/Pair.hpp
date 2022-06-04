@@ -34,3 +34,5 @@ template <class T1, class T2>
 bool Pair<T1, T2> :: operator == (const Pair<T1, T2> &other) const {
     return first == other.first && second == other.second;
 }
+
+typedef Pair<int, int> IntPair;

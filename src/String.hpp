@@ -28,9 +28,9 @@ class String {
     String& operator = (const String &other);
     String& operator = (char *str);
     String operator + (const String &other);
-    bool operator < (const String &other);
-    bool operator == (const String &other);
-    bool operator > (const String &other);
+    bool operator < (const String &other) const;
+    bool operator == (const String &other) const;
+    bool operator > (const String &other) const;
 };
 
 String :: StringNode :: StringNode() {
@@ -70,6 +70,7 @@ String :: ~String() {
     }
     free(tail);
     head = tail = NULL;
+    // printf("S!\n");
 }
 
 int String :: getSize() const {
@@ -129,7 +130,7 @@ String String :: operator + (const String &other) {
     return ans;
 }
 
-bool String :: operator < (const String &other) {
+bool String :: operator < (const String &other) const {
     char* str1 = data();
     char* str2 = other.data();
     int n = size;
@@ -140,7 +141,7 @@ bool String :: operator < (const String &other) {
     return n < m;
 }
 
-bool String :: operator == (const String &other) {
+bool String :: operator == (const String &other) const {
     char* str1 = data();
     char* str2 = other.data();
     int n = size;
@@ -151,7 +152,7 @@ bool String :: operator == (const String &other) {
     return n == m;
 }
 
-bool String :: operator > (const String &other) {
+bool String :: operator > (const String &other) const {
     char* str1 = data();
     char* str2 = other.data();
     int n = size;

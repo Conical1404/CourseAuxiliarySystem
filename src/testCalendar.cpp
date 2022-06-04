@@ -3,29 +3,61 @@
 // using namespace std;
 
 int main() {
+    // char s[] = "String1";
+    // char t[] = "String";
+    // String ss; ss = s;
+    // String tt; tt = t;
+    // KMP kmp(ss, tt);
+    // printf("%d\n", kmp.isExist());
+
+    MaterialSys sys;
     char s[] = "NAME";
     char c[] = "COURSE";
     char p[] = "PATH";
+    char s1[] = "BNAME";
+    char sh[] = "AME";
     ByteArray md(8, 'x');
-    ByteArray mm;
+    ByteArray mm(8, 'y');
     String sname; sname = s;
+    String sname1; sname1 = s1;
     String cname; cname = c;
     String pname; pname = p;
+    String srh; srh = sh;
     Time btime; btime = 1000;
-    // printf("%s\n%s\n%s\n", sname.data(), cname.data(), pname.data());
-    Material a(1, cname, md, sname, pname, btime);
-    printf("%d %d\n", a.isHomework(), a.isData());
-    printf("%s\n", a.getCourseName().data());
-    printf("%s\n", a.getName().data());
-    printf("%d: ", md.getSize());
-    // mm = a.getMd5();
-    // printf("%d: ", mm.getSize());
-    // printf("???\n");
-    // printf("%d: ", a.getMd5().getSize());
-    // for(int i = 0; i < a.getMd5().getSize(); i ++) {
-    //     printf("%d ", a.getMd5()[i]);
+    Time btime1; btime1 = 1002;
+    Material* a = new Material(1, cname, md, sname, pname, btime);
+    Material* b = new Material(1, cname, mm, sname1, pname, btime1);
+    int f = sys.addMaterials(a);
+    f = sys.addMaterials(b);
+    printf("%d\n", f);
+    printf("---\n");
+    // sys.sortByName(0, ans.getSize() - 1);
+    // ans = sys.getAllMaterial();
+    // printf("%d: ", ans.getSize());
+    // for(int i = 0; i < ans.getSize(); i++) {
+    //     printf("%s\n", ans[i]->getName().data());
     // }
-    // printf("\n");
-    // printf("%d\n", a.getTime().calHours());
+    // sys.sortByTime(0, ans.getSize() - 1);
+    // ans = sys.getAllMaterial();
+    // printf("%d: ", ans.getSize());
+    // for(int i = 0; i < ans.getSize(); i++) {
+    //     printf("%s\n", ans[i]->getName().data());
+    // }
+    // Material* x = NULL;
+    // x = sys.getMaterialByName(sname);
+    // printf("%d %d\n", x->isData(), x->isHomework());
+    // printf("%p %p\n", &a, x);
+    // x = sys.getCertainVersion(sname, 0);
+    // printf("%p %p\n", &a, x);
+    // x = sys.getCertainVersion(sname, 1);
+    // printf("%p %p\n", &b, x);
+    // x = sys.getMaterialByTime(btime);
+    // printf("%p %p\n", &a, x);
+    // printf("---\n");
+    // MaterialPtr ptr;
+    // ptr.ptr = &a;
+    // MaterialPtr qtr;
+    // qtr.ptr = &b;
+    // printf("%d %d\n", qtr < ptr, qtr == ptr);
     return 0;
 }
