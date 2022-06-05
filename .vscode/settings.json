@@ -11,6 +11,7 @@
 		"scoped_allocator": "cpp",
 		"bitset": "cpp",
 		"regex": "cpp",
-		"valarray": "cpp"
+		"valarray": "cpp",
+		"thread": "cpp"
 	}
 }

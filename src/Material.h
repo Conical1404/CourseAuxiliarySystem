@@ -5,7 +5,7 @@
 #include "Vector.h"
 #include "Array.h"
 #include "Pair.h"
-#include "AVL.hpp"
+#include "AVL.h"
 #include "KMP.h"
 #include "src/rbtree.h"
 
