@@ -1,14 +1,14 @@
 #pragma once
 #include <stdlib.h>
-#include "Basic.hpp"
-#include "String.hpp"
-#include "Vector.hpp"
-#include "Array.hpp"
-#include "Pair.hpp"
+#include "Basic.h"
+#include "String.h"
+#include "Vector.h"
+#include "Array.h"
+#include "Pair.h"
 #include "AVL.hpp"
-#include "KMP.hpp"
+#include "KMP.h"
 #include "Sort.hpp"
-#include "rbtree.hpp"
+#include "rbtree.h"
 #include "Material.hpp"
 
 class Test {  // 这是用来从文件读到课程里

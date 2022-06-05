@@ -1,35 +1,4 @@
-#pragma once
-#include <stdlib.h>
-#include <stdio.h>
-#include "EdgeNode.hpp"
-#include "DyadicArray.hpp"
-#include "Vector.hpp"
-#include "Array.hpp"
-#include "Heap.hpp"
-#include "Pair.hpp"
-
-class Graph {
- private:
-    Array<int> head;
-    Vector<int> end, next;
-    Vector<EdgeNode> weight;
-    int vertexNum, edgeNum;
-
- public:
-    Graph();
-    explicit Graph(int n);
-    ~Graph();
-    void addDirectedEdge(int u, int v, EdgeNode w);
-    void addUndirectedEdge(int u, int v, EdgeNode w);
-    template<typename F>
-    Vector<Pair<EdgeNode, int> > shortestPath
-        (int startVertex, int endVertex, double *ans);
-    template<typename F>
-    Vector<Pair<EdgeNode, int> > shortestPath
-        (int startVertex, int endVertex, Vector<int> midVertex, double *ans);
-    template<typename F>
-    Array<double> singleSourceShortestPath(int startVertex);
-};
+#include "Graph.h"
 
 Graph :: Graph() : vertexNum(0), edgeNum(0), head() {
     end.pushBack(0);
