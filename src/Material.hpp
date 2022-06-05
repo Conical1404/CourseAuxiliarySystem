@@ -36,7 +36,7 @@ class Material {  // 课程资料或作业
         nextVersion = NULL;
     }
     ~Material() {
-        // printf("M! xigou\n");
+        // printf("M! \n");
     }
     explicit Material(const Material& other) {
         homework = other.homework;
@@ -82,6 +82,16 @@ class Material {  // 课程资料或作业
     }
     Material* getNextVersion() {
         return nextVersion;
+    }
+    Material& operator = (const Material& other) {
+        homework = other.homework;
+        courseName = other.courseName;
+        name = other.name;
+        md5 = other.md5;
+        path = other.path;
+        updateTime = other.updateTime;
+        nextVersion = other.nextVersion;
+        return *this;
     }
 };
 

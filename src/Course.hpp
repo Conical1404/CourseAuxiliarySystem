@@ -12,6 +12,7 @@
 #include "Material.hpp"
 
 class Test {  // 这是用来从文件读到课程里
+// 已测试
  private:
     Pair<Time, Time> testTime;  // 包括一个开始时间和结束时间
     int cid;  // 对应课程的编号，并没有实际作用
@@ -21,9 +22,10 @@ class Test {  // 这是用来从文件读到课程里
         testTime.first = 0;
         testTime.second = 0;
     }
-    Test(Time sTime, Time eTime) {
+    Test(Time sTime, Time eTime, int id) {
         testTime.first = sTime;
         testTime.second = eTime;
+        cid = id;
     }
     Pair<Time, Time> getTime() {
         return testTime;
@@ -34,9 +36,13 @@ class Test {  // 这是用来从文件读到课程里
     Time getEndTime() {
         return testTime.second;
     }
+    int getcid() {
+        return cid;
+    }
     Test operator = (const Test &other) {
         testTime = other.testTime;
         cid = other.cid;
+        return *this;
     }
 };
 
@@ -72,12 +78,14 @@ class Course {
         courseTime = other.courseTime;
         courseWeek = other.courseWeek;
         test = other.test;
+        handIn = other.handIn;
+        toBeHandIn = other.toBeHandIn;
     }
     void addTest(Test t) {
         test = t;
     }
     void setTest(Time sTime, Time eTime) {
-        test = Test(sTime, eTime);
+        test = Test(sTime, eTime, courseid);
     }
     int getId() {
         return courseid;
@@ -132,6 +140,18 @@ class Course {
     }
     Vector<String> getHandInHomework() {
         return handIn;
+    }
+    Course& operator = (const Course &other) {
+        courseid = other.courseid;
+        courseName = other.courseName;
+        location = other.location;
+        classroom = other.classroom;
+        courseTime = other.courseTime;
+        courseWeek = other.courseWeek;
+        test = other.test;
+        handIn = other.handIn;
+        toBeHandIn = other.toBeHandIn;
+        return *this;
     }
 };
 

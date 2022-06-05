@@ -172,10 +172,10 @@ class AVL{
         }
         if (d == u->data) return u->data;
         if (d < u->data) {
-            T f = exist(u->left, d);
+            T f = search(u->left, d);
             return f;
         } else {
-            T f = exist(u->right, d);
+            T f = search(u->right, d);
             return f;
         }
         return d;
