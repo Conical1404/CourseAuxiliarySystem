@@ -26,31 +26,22 @@ int main() {
     Time btime; btime = 1000;
     Time btime1; btime1 = 1002;
     Material* a = new Material(1, cname, md, sname, pname, btime);
-    Material* b = new Material(1, cname, mm, sname1, pname, btime1);
+    Material* b = new Material(1, cname, mm, sname, pname, btime1);
     int f = sys.addMaterials(a);
     f = sys.addMaterials(b);
     printf("%d\n", f);
     printf("---\n");
-    // sys.sortByName(0, ans.getSize() - 1);
-    // ans = sys.getAllMaterial();
-    // printf("%d: ", ans.getSize());
-    // for(int i = 0; i < ans.getSize(); i++) {
-    //     printf("%s\n", ans[i]->getName().data());
-    // }
-    // sys.sortByTime(0, ans.getSize() - 1);
-    // ans = sys.getAllMaterial();
-    // printf("%d: ", ans.getSize());
-    // for(int i = 0; i < ans.getSize(); i++) {
-    //     printf("%s\n", ans[i]->getName().data());
-    // }
-    // Material* x = NULL;
-    // x = sys.getMaterialByName(sname);
+    Material* x = NULL;
+    x = sys.getMaterialByTime(btime);
     // printf("%d %d\n", x->isData(), x->isHomework());
-    // printf("%p %p\n", &a, x);
+    printf("%p %p\n", a, x);
     // x = sys.getCertainVersion(sname, 0);
     // printf("%p %p\n", &a, x);
     // x = sys.getCertainVersion(sname, 1);
-    // printf("%p %p\n", &b, x);
+    printf("%p %p\n", b, x);
+    x = sys.getMaterialByTime(btime1);
+    printf("%p %p\n", a, x);
+    printf("%p %p\n", b, x);
     // x = sys.getMaterialByTime(btime);
     // printf("%p %p\n", &a, x);
     // printf("---\n");

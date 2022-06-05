@@ -129,8 +129,8 @@ class MaterialSys {
  private:
     Vector<Material*> materials;
     RBTree<MaterialPtr> materialTree;
-    RBTree<Pair<String, int>> nameTree;
-    RBTree<Pair<Time, IntPair>> timeTree;
+    RBTree<Spair<String, int>> nameTree;
+    RBTree<Spair<Time, IntPair>> timeTree;
     Vector<Material*> mForSort;
 
  public:
@@ -160,11 +160,12 @@ class MaterialSys {
         km.ptr = m;
         if (materialTree.find(km)) return false;
         // 判断是否是重复文件
-        Pair<String, int> p;
+        Spair<String, int> p;
         p.first = m->getName();
         p.second = 0;
-        Pair<Time, IntPair> tt;
+        Spair<Time, IntPair> tt;
         tt.first = m->getTime();
+        // printf("!M !%d\n", m->getTime().calHours());
         int cnt = 0;
         if (nameTree.find(p)) {
             // printf("M! 1\n");
@@ -190,13 +191,14 @@ class MaterialSys {
         tt.second.first = p.second;
         tt.second.second = 0;
         timeTree.insert(tt);
+        // printf("!M *%d %d\n", timeTree.find(tt), tt.first.calHours());
         // printf("M! 3\n");
         return true;
     }
     Material* getMaterialByName(const String& name) {
     // 已测试
         Material* homework = NULL;
-        Pair<String, int> p;
+        Spair<String, int> p;
         p.first = name;
         p.second = 0;
         if (!nameTree.find(p)) return NULL;
@@ -207,16 +209,19 @@ class MaterialSys {
     Material* getMaterialByTime(const Time& t) {
     // 重写
         Material* m = NULL;
-        Pair<Time, IntPair> tt;
+        Spair<Time, IntPair> tt;
         tt.first = t;
+        // printf("!M !%d %d\n", tt.first.calHours(), timeTree.find(tt));
         if (!timeTree.find(tt)) return NULL;
         tt = timeTree.search(tt);
         int index = tt.second.first;
         int index2 = tt.second.second;
+        // printf("!M ?%d %d\n", index, index2);
         m = materials[index];
         while (index2--) {
             m = m->getNextVersion();
         }
+        // printf("!M %p\n", m);
         return m;
     }
     Vector<Material*> search(const String& name) {
@@ -235,7 +240,7 @@ class MaterialSys {
     // 版本编号从 0 开始计
     // 已测试
         Material* m = NULL;
-        Pair<String, int> p;
+        Spair<String, int> p;
         p.first = name;
         p.second = 0;
         if (!nameTree.find(p)) return NULL;
