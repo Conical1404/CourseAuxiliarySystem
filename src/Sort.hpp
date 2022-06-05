@@ -1,5 +1,5 @@
 #pragma once
-#include "basic.hpp"
+#include "src/basic.h"
 
 template<class T>
 void sort(T *a, int len) {
